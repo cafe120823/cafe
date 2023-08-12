@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "bills" %}{% endblock title %}
+{% block header %}{% endblock header %}
+{% block content %}
+<h2>{% trans "bills" %}</h2>
+{% if bill.count > 0 %}
+<div class="row">
+	<table id="myTable" class="table-manager" style="width:100%">
+		<thead>
+			<tr>
+				<th><p>{% trans "dateb" %}</p></th>
+				<th><p>{% trans "place" %}</p></th>
+				<th><p>{% trans "total" %}</p></th>
+				<th><p>{% trans "discount" %}</p></th>
+				<th><p>{% trans "bonus" %}</p></th>
+				<th><p>{% trans "amount" %}</p></th>
+				<th><p><a href="{% url 'bill_create'%}">{% trans "Create" %}</a></p></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for n in bill %}
+			<tr>
+				<td>
+					<p>{{ n.dateb | date:"d.m.Y H:i" }}</p>
+				</td>
+				<td>
+					<p>{{ n.place }}</p>
+					<p><a href="{% url 'detailing_index' n.id%}">{% trans "detailing" %}</a></p>
+				</td>
+				<td>
+					<p>{{ n.total }}</p>
+				</td>
+				<td>
+					<p>{{ n.discount }}</p>
+				</td>
+				<td>
+					<p>{{ n.bonus }}</p>
+				</td>
+				<td>
+					<p>{{ n.amount }}</p>
+				</td>
+				<td>
+					<p>
+					<a href="{% url 'bill_edit' n.id %}">{% trans "Change" %}</a> |
+					<a href="{% url 'bill_read' n.id %}">{% trans "Read" %}</a> |
+					<a onclick="return confirm('Удалить запись?')" href="{% url 'bill_delete' n.id %}">{% trans "Delete" %}</a>
+					</p>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
+<a href="{% url 'bill_create'%}">{% trans "Create" %}</a>
+{% endif %}
+{% endblock content %}
