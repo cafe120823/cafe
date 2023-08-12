@@ -104,15 +104,15 @@ DATABASES = {
     #}
 
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'family',
-        'USER' : 'family_admin',
-        'PASSWORD' : 'ZBnxj2tPLhjPFdJhqPLxupFyyOBa6Rtt',
-        'HOST' : 'dpg-cij9nd95rnut2sbpvufg-a.frankfurt-postgres.render.com',
-        'PORT' : '5432',
-
+	    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	    'NAME': 'cafe_b0mu',
+	    'USER' : 'cafe_b0mu_user',
+	    'PASSWORD' : 'jO8f8ZJJCLKwjN4UUkDPUDxEBLFOFRgz',
+	    'HOST' : 'dpg-cjbgq7fdb61s73807org-a.frankfurt-postgres.render.com',
+	    'PORT' : '5432',
+    }
+    
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
