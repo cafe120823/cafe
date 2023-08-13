@@ -26,8 +26,12 @@ from django.contrib.auth import views as auth_views
 
 from rest_framework import routers
 router = routers.SimpleRouter()
+router.register(r'category', views.categoryViewSet)
 router.register(r'catalog', views.catalogViewSet)
 router.register(r'viewcatalog', views.viewCatalogViewSet)
+router.register(r'bill', views.billViewSet)
+router.register(r'detailing', views.detailingViewSet)
+router.register(r'news', views.newsViewSet)
 
 urlpatterns = [
     path('', views.index),
@@ -36,6 +40,7 @@ urlpatterns = [
     #path('report/index/', views.report_index, name='report_index'),
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
+    path('api/', include(router.urls)),  
     
     path('category/index/', views.category_index, name='category_index'),
     path('category/create/', views.category_create, name='category_create'),
@@ -52,7 +57,6 @@ urlpatterns = [
     path('catalog/details/<int:id>/', views.catalog_details, name='catalog_details'),    
     path('catalog/basket/', views.basket, name='basket'),
     #path('catalog/buy/', views.buy, name='buy'),
-    path('api/', include(router.urls)),  
     
     path('bill/index/', views.bill_index, name='bill_index'),
     path('bill/create/', views.bill_create, name='bill_create'),

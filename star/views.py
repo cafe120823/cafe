@@ -20,7 +20,7 @@ from django.core.mail import send_mail
 # Подключение моделей
 from .models import Category, Catalog, ViewCatalog, Basket, Bill, Detailing, News
 # Подключение cериализаторов
-from .serializers import CatalogSerializer, ViewCatalogSerializer
+from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, DetailingSerializer, NewsSerializer
 from rest_framework import viewsets
 # Подключение форм
 from .forms import CategoryForm, CatalogForm, BillForm, DetailingForm, NewsForm, SignUpForm
@@ -176,6 +176,14 @@ def category_read(request, id):
     except Exception as exception:
         print(exception)
         return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class categoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    # http://127.0.0.1:8000/api/category/
 
 ###################################################################################################
 
@@ -460,6 +468,14 @@ def bill_read(request, id):
         print(exception)
         return HttpResponse(exception)
 
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class billViewSet(viewsets.ModelViewSet):
+    queryset = Bill.objects.all()
+    serializer_class = BillSerializer
+    # http://127.0.0.1:8000/api/bill/
+
 ###################################################################################################
 
 # Список для изменения с кнопками создать, изменить, удалить
@@ -562,6 +578,15 @@ def detailing_read(request, id, bill_id):
     except Exception as exception:
         print(exception)
         return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class detailingViewSet(viewsets.ModelViewSet):
+    queryset = Detailing.objects.all()
+    serializer_class = DetailingSerializer
+    # http://127.0.0.1:8000/api/detailing/
+
 ###################################################################################################
 
 # Список для изменения с кнопками создать, изменить, удалить
@@ -879,6 +904,14 @@ def news_read(request, id):
     except Exception as exception:
         print(exception)
         return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class newsViewSet(viewsets.ModelViewSet):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+    # http://127.0.0.1:8000/api/news/
 
 ###################################################################################################    
 
