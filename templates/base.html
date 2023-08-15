@@ -30,26 +30,24 @@
 	<!-- Заголовок документа -->
 	<title>{% block title %}Default title{% endblock title %}</title>
 </head>
+
 <nav class="navbar navbar-expand-lg justify-content-center">	
 	<div class="container">
-		<a class="navbar-brand" href="{{ HTTP_HOST }}/">{% trans "Home" %}</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
+			<span class="navbar-toggler-icon">▒</span>
 		</button>
 		<div class="collapse navbar-collapse" id="mainMenu">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'contact' %}">{% trans "Contacts" %}</a>          
-				</li>
+				<a class="navbar-brand" href="{{ HTTP_HOST }}/">{% trans "Home" %}</a>
 				<li class="nav-item">
 					<a class="nav-link" href="{% url 'catalog_list' %}">{% trans "catalog" %}</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'news_list' %}">{% trans "newss" %}</a>
 				</li>
 				{% if user.is_authenticated %}
 				<li class="nav-item">
 					<a class="nav-link" href="{% url 'basket' %}">{% trans "Basket" %}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'bill_index' %}">{% trans "bills" %}</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -81,6 +79,12 @@
 					<a href="{% url 'signup' %}" class="btn btn-primary ml-2">{% trans "Sign up" %}</a>
 				</form>
 				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'news_list' %}">{% trans "newss" %}</a>
+				</li>				
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'contact' %}">{% trans "Contacts" %}</a>          
+				</li>
 				<form action="{% url 'set_language' %}" method="post">
 					{% csrf_token %}
 					<input name="next" type="hidden" value="{{ redirect_to }}" />
@@ -92,7 +96,7 @@
 						{{ language.code }}
 					</button>
 					{% endfor %}
-				</form>
+				</form>				
 			</ul>      
 		</div>
 	</div>

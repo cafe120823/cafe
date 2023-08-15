@@ -15,7 +15,8 @@
 				<th><p>{% trans "discount" %}</p></th>
 				<th><p>{% trans "bonus" %}</p></th>
 				<th><p>{% trans "amount" %}</p></th>
-				<th><p><a href="{% url 'bill_create'%}">{% trans "Create" %}</a></p></th>
+				<th><p></p></th>
+				<!-- <th><p><a href="{% url 'bill_create'%}">{% trans "Create" %}</a></p></th> -->
 			</tr>
 		</thead>
 		<tbody>
@@ -29,16 +30,22 @@
 					<p><a href="{% url 'detailing_index' n.id%}">{% trans "detailing" %}</a></p>
 				</td>
 				<td>
-					<p>{{ n.total }}</p>
+					{% if n.amount > 0 %}
+						<p>
+					{% else %}
+						<p style="color:red;">
+					{% endif %}
+						{{ n.total | stringformat:"1.0f" }} 〒
+					</p>
 				</td>
 				<td>
-					<p>{{ n.discount }}</p>
+					<p>{% if n.discount > 0 %}{{ n.discount }} %{% endif %}</p>
 				</td>
 				<td>
-					<p>{{ n.bonus }}</p>
+					<p>{% if n.bonus > 0 %}{{ n.bonus | stringformat:"1.0f"}} 〒{% endif %}</p>
 				</td>
 				<td>
-					<p>{{ n.amount }}</p>
+					<p>{% if n.amount > 0 %}{{ n.amount | stringformat:"1.0f" }} 〒{% endif %}</p>
 				</td>
 				<td>
 					<p>
@@ -53,6 +60,6 @@
 	</table>
 </div>
 {% else %}
-<a href="{% url 'bill_create'%}">{% trans "Create" %}</a>
+<!-- <a href="{% url 'bill_create'%}">{% trans "Create" %}</a> -->
 {% endif %}
 {% endblock content %}

@@ -126,7 +126,12 @@ class Detailing(models.Model):
         ordering = ['bill']
     def __str__(self):
         # Вывод в тег SELECT 
-        return "{} {}".format(self.bill, self.catalog)     
+        return "{} {}".format(self.bill, self.catalog)  
+    @property
+    def total(self):
+        # "Возврат суммы."
+        return '%f' % (self.price*self.quantity)
+
     
 # Корзина 
 class Basket(models.Model):

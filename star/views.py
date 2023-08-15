@@ -22,6 +22,8 @@ from .models import Category, Catalog, ViewCatalog, Basket, Bill, Detailing, New
 # Подключение cериализаторов
 from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, DetailingSerializer, NewsSerializer
 from rest_framework import viewsets
+from rest_framework import generics
+#from rest_framework import generics
 # Подключение форм
 from .forms import CategoryForm, CatalogForm, BillForm, DetailingForm, NewsForm, SignUpForm
 
@@ -30,6 +32,9 @@ from django.db.models import Sum
 from django.db import models
 
 import sys
+
+import math
+
 
 #from django.utils.translation import ugettext as _
 from django.utils.translation import gettext_lazy as _
@@ -59,12 +64,12 @@ def group_required(*group_names):
 # Стартовая страница 
 def index(request):
     try:
-        #catalog = ViewCatalog.objects.all().order_by('?')[0:4]
+        catalog = ViewCatalog.objects.all().order_by('?')[0:4]
         #reviews = ViewSale.objects.exclude(rating=None).order_by('?')[0:4]
-        news1 = News.objects.all().order_by('-daten')[0:1]
-        news24 = News.objects.all().order_by('-daten')[1:4]
+        #news1 = News.objects.all().order_by('-daten')[0:1]
+        #news24 = News.objects.all().order_by('-daten')[1:4]
         #return render(request, "index.html", {"catalog": catalog, "reviews": reviews, "news1": news1, "news24": news24})    
-        return render(request, "index.html", {"news1": news1, "news24": news24})    
+        return render(request, "index.html", {"catalog": catalog, })    
     except Exception as exception:
         print(exception)
         return HttpResponse(exception)    
@@ -184,6 +189,17 @@ class categoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     # http://127.0.0.1:8000/api/category/
+
+#class categoryViewSet(generics.ListAPIView ):
+
+#    queryset = Category.objects.all()
+#    serializer_class = CategorySerializer
+#    #http://127.0.0.1:8000/api/category/
+
+
+#class categoryDetail(generics.RetrieveUpdateDestroyAPIView):
+#    queryset = Category.objects.all()
+#    serializer_class = CategorySerializer
 
 ###################################################################################################
 
@@ -389,7 +405,7 @@ class viewCatalogViewSet(viewsets.ModelViewSet):
 @group_required("Managers")
 def bill_index(request):
     try:
-        bill = Bill.objects.all().order_by('dateb')
+        bill = Bill.objects.all().order_by('-dateb')
         return render(request, "bill/index.html", {"bill": bill,})
     except Exception as exception:
         print(exception)
@@ -597,6 +613,33 @@ def detailing_index(request, bill_id):
         #detailing = Detailing.objects.all().order_by('title')
         bill = Bill.objects.get(id=bill_id)
         detailing = Detailing.objects.filter(bill_id=bill_id)
+         # Если это подтверждение какого-либо действия
+        if request.method == "POST":        
+            # Увеличение или уменьшение количества товара в корзине
+            if ('accept' in request.POST):
+                #bill_total = request.POST.get("bill_total")
+                discount = request.POST.get("discount")
+                if discount == "":
+                    discount = 0
+                else:
+                    bill.discount = discount
+                bonus = request.POST.get("bonus")
+                if bonus == "":
+                    bonus = 0
+                else:
+                    bill.bonus = bonus
+                print("bill_id " + str(bill.id))
+                print("bill_total " + str(bill.total))
+                print("discount " + str(discount))
+                print("bonus " + str(bonus))
+                #if str(bill_total).find(","):
+                #     bill_total = str(bill_total).replace(",", ".")
+                bill.amount = math.ceil(bill.total - ((bill.total*int(discount))/100) - int(bonus))
+                print("amount " + str(bill.amount))
+                # Примепнить бонусы и скидки
+                bill.save()
+                # Обновить список
+                bill = Bill.objects.get(id=bill_id)
         return render(request, "detailing/index.html", {"detailing": detailing, "bill": bill, "bill_id": bill_id})
     except Exception as exception:
         print(exception)
@@ -715,6 +758,8 @@ def basket(request):
         basket_count, basket_total = basket_count_total(_user_id)   
         #print(total)        
         place = request.POST.get('place')
+        if place==None:
+            place = "№1"
         # Если это подтверждение какого-либо действия
         if request.method == "POST":        
             # Увеличение или уменьшение количества товара в корзине
@@ -736,7 +781,7 @@ def basket(request):
                 basket = Basket.objects.filter(user_id=_user_id).order_by('basketday')
                 # Подсчитать количество и стоимость товара в корзине
                 basket_count, basket_total = basket_count_total(_user_id)        
-                return render(request, "catalog/basket.html", {"basket": basket,  "basket_count": basket_count, "basket_total": basket_total,})
+                return render(request, "catalog/basket.html", {"basket": basket,  "basket_count": basket_count, "basket_total": basket_total, "place": place})
             # Приобретение, если нажата кнопка Buy
             if 'buy' in request.POST:
                 # Добавить счет (заказ)

@@ -41,7 +41,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
     path('api/', include(router.urls)),  
-    
+
+    #path('api/category/', views.categoryViewSet.as_view()),
+    #path('api/category/<int:pk>/', views.categoryDetail.as_view()),
+
     path('category/index/', views.category_index, name='category_index'),
     path('category/create/', views.category_create, name='category_create'),
     path('category/edit/<int:id>/', views.category_edit, name='category_edit'),

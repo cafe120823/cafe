@@ -17,6 +17,38 @@
 		<h5>{% trans "amount" %}: {{ bill.amount | stringformat:"1.0f" }} 〒</h5>
 	{% else %}
 		<h5>{% trans "not yet paid" %}</h5>
+		<form method="post" enctype="multipart/form-data" class="hide_for_print_element">
+			{% csrf_token %}
+			<table>
+				<tr>
+					<td>
+						<label for="id_discount">{% trans "discount" %}</label>
+					</td>
+					<td>
+						<input type="number" name="discount" size="10" min="0" max="100" step="1" id="id_discount" value="{{ discount }}">
+					</td>
+					<td>
+						<label>%</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="id_bonus">{% trans "payment by bonuses" %}</label>
+					</td>
+					<td>
+						<input type="number" name="bonus" size="10" min="0" max="1000" step="50" id="id_bonus" value="{{ bonus }}">
+					</td>
+					<td>
+						<label>〒</label>
+					</td>
+				</tr>
+			</table>
+			<div class="row justify-content-center">
+				<button onclick="return confirm('Принять оплату?')" type="submit" name="accept" class="btn btn-outline-success" style="width:150px" >{% trans "Accept payment" %}</button>				
+				<button class="btn btn-info" name = "print" id ="print" onclick='printDiv("print_content")' style="text-align: center;width:150px">Печать</button>
+				<a class="btn btn-outline-info" style="width:150px" href="{% url 'bill_index'%}">{% trans "Back" %}</a> 
+			</div>	
+		</form>	
 	{% endif %}
 	<hr>
 	<h2>{% trans "detailing" %}</h2>
@@ -29,8 +61,9 @@
 					<th><p>{% trans "title" %}</p></th>
 					<th><p>{% trans "price" %}</p></th>
 					<th><p>{% trans "quantity" %}</p></th>
+					<th><p>{% trans "total" %}</p></th>
 					<th class="hide_for_print_element"><p>{% trans "photo" %}</p></th>
-					<th class="hide_for_print_element"><p><a href="{% url 'detailing_create' bill_id %}">{% trans "Create" %}</a></p></th>					
+					<th class="hide_for_print_element"><p><a href="{% url 'detailing_create' bill_id %}">{% if bill.amount == 0 %}{% trans "Create" %} {% endif %}</a></p></th>					
 				</tr>
 			</thead>
 			<tbody>
@@ -48,6 +81,9 @@
 					<td>
 						<p>{{ p.quantity }}</p>
 					</td>
+					<td>
+						<p>{{ p.total  | floatformat:0 }} 〒</p>
+					</td> 
 					<td class="hide_for_print_element">
 						{% if p.catalog.photo.url != None %}					
 							{% if p.catalog.photo.url == "/media/images/catalog01.jpg" %}
@@ -129,20 +165,17 @@
 					</td>
 					<td class="hide_for_print_element">	
 						<p>
+						{% if bill.amount == 0 %}
 						<a  href="{% url 'detailing_edit' p.id bill_id %}">{% trans "Change" %}</a> |
 						<a href="{% url 'detailing_read' p.id bill_id %}">{% trans "Read" %}</a> |
 						<a onclick="return confirm('Удалить запись?')" href="{% url 'detailing_delete' p.id bill_id %}">{% trans "Delete" %}</a>
+						{% endif %}
 						</p>
 					</td>			
 				</tr>
 				{% endfor %}
 			</tbody>
 		</table>
-	</div>
-	<div class="div-button-center hide_for_print_element">
-		<button class="btn btn-info" name = "print" id ="print" onclick='printDiv("print_content")' style="text-align: center;width:150px">Печать</button>
-		<!-- <button onclick="history.back()" class="btn btn-outline-info" style="width:100px">{% trans "Back" %}</button>	 	 -->
-		<a class="btn btn-outline-info" style="width:150px" href="{% url 'bill_index'%}">{% trans "Back" %}</a>    
 	</div>	
 	{% else %}
 	<a href="{% url 'detailing_create' bill_id %}">{% trans "Create" %}</a>
