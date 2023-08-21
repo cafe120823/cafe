@@ -18,9 +18,9 @@ from datetime import datetime, timedelta
 from django.core.mail import send_mail
 
 # Подключение моделей
-from .models import Category, Catalog, ViewCatalog, Basket, Bill, Detailing, News
+from .models import Category, Catalog, ViewCatalog, Basket, Bill, Detailing, ViewDetailing, News
 # Подключение cериализаторов
-from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, DetailingSerializer, NewsSerializer
+from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, DetailingSerializer, ViewDetailingSerializer, NewsSerializer
 from rest_framework import viewsets
 from rest_framework import generics
 #from rest_framework import generics
@@ -494,114 +494,106 @@ class billViewSet(viewsets.ModelViewSet):
 
 ###################################################################################################
 
-# Список для изменения с кнопками создать, изменить, удалить
-@login_required
-@group_required("Managers")
-def detailing_index(request, bill_id):
-    try:
-        #detailing = Detailing.objects.all().order_by('title')
-        invoice = Invoice.objects.get(id=bill_id)
-        detailing = Detailing.objects.filter(bill_id=bill_id).order_by('title')
-        return render(request, "detailing/index.html", {"detailing": detailing, "invoice": invoice, "bill_id": bill_id})
-    except Exception as exception:
-        print(exception)
-        return HttpResponse(exception)    
+## Список для изменения с кнопками создать, изменить, удалить
+#@login_required
+#@group_required("Managers")
+#def detailing_index(request, bill_id):
+#    try:
+#        #detailing = Detailing.objects.all().order_by('title')
+#        invoice = Invoice.objects.get(id=bill_id)
+#        detailing = Detailing.objects.filter(bill_id=bill_id).order_by('title')
+#        return render(request, "detailing/index.html", {"detailing": detailing, "invoice": invoice, "bill_id": bill_id})
+#    except Exception as exception:
+#        print(exception)
+#        return HttpResponse(exception)    
     
-# В функции create() получаем данные из запроса типа POST, сохраняем данные с помощью метода save()
-# и выполняем переадресацию на корень веб-сайта (то есть на функцию index).
-@login_required
-@group_required("Managers")
-def detailing_create(request, bill_id):
-    try:
-        if request.method == "POST":
-            detailing = Detailing()
-            detailing.bill_id = bill_id
-            detailing.category = Category.objects.filter(id=request.POST.get("category")).first()
-            detailing.title = request.POST.get("title")
-            detailing.details = request.POST.get("details")        
-            detailing.price = request.POST.get("price")
-            detailing.quantity = request.POST.get("quantity")
-            if 'photo' in request.FILES:                
-                detailing.photo = request.FILES['photo']
-            detailingform = DetailingForm(request.POST)
-            if detailingform.is_valid():
-                detailing.save()
-                return HttpResponseRedirect(reverse('detailing_index', args=(bill_id,)))
-            else:
-                return render(request, "detailing/create.html", {"form": detailingform})
-        else:        
-            detailingform = DetailingForm()
-            return render(request, "detailing/create.html", {"form": detailingform, "bill_id": bill_id})
-    except Exception as exception:
-        print(exception)
-        return HttpResponse(exception)
+## В функции create() получаем данные из запроса типа POST, сохраняем данные с помощью метода save()
+## и выполняем переадресацию на корень веб-сайта (то есть на функцию index).
+#@login_required
+#@group_required("Managers")
+#def detailing_create(request, bill_id):
+#    try:
+#        if request.method == "POST":
+#            detailing = Detailing()
+#            detailing.bill_id = bill_id
+#            detailing.category = Category.objects.filter(id=request.POST.get("category")).first()
+#            detailing.title = request.POST.get("title")
+#            detailing.details = request.POST.get("details")        
+#            detailing.price = request.POST.get("price")
+#            detailing.quantity = request.POST.get("quantity")
+#            if 'photo' in request.FILES:                
+#                detailing.photo = request.FILES['photo']
+#            detailingform = DetailingForm(request.POST)
+#            if detailingform.is_valid():
+#                detailing.save()
+#                return HttpResponseRedirect(reverse('detailing_index', args=(bill_id,)))
+#            else:
+#                return render(request, "detailing/create.html", {"form": detailingform})
+#        else:        
+#            detailingform = DetailingForm()
+#            return render(request, "detailing/create.html", {"form": detailingform, "bill_id": bill_id})
+#    except Exception as exception:
+#        print(exception)
+#        return HttpResponse(exception)
 
-# Функция edit выполняет редактирование объекта.
-@login_required
-@group_required("Managers")
-def detailing_edit(request, id, bill_id):
-    try:
-        detailing = Detailing.objects.get(id=id) 
-        if request.method == "POST":
-            detailing.category = Category.objects.filter(id=request.POST.get("category")).first()
-            detailing.title = request.POST.get("title")
-            detailing.details = request.POST.get("details")        
-            detailing.price = request.POST.get("price")
-            detailing.quantity = request.POST.get("quantity")
-            if 'photo' in request.FILES:
-                detailing.photo = request.FILES['photo']
-            detailingform = DetailingForm(request.POST)
-            if detailingform.is_valid():
-                detailing.save()
-                return HttpResponseRedirect(reverse('detailing_index', args=(bill_id,)))
-            else:
-                return render(request, "detailing/edit.html", {"form": detailingform, "bill_id": bill_id})            
-        else:
-            # Загрузка начальных данных
-            detailingform = DetailingForm(initial={'category': detailing.category, 'subcategory': detailing.subcategory, 'title': detailing.title, 'details': detailing.details, 'price': detailing.price, 'quantity': detailing.quantity, 'photo': detailing.photo, })
-            #print('->',detailing.photo )
-            return render(request, "detailing/edit.html", {"form": detailingform, "bill_id": bill_id})
-    except Detailing.DoesNotExist:
-        return HttpResponseNotFound("<h2>Detailing not found</h2>")
-    except Exception as exception:
-        print(exception)
-        return HttpResponse(exception)
+## Функция edit выполняет редактирование объекта.
+#@login_required
+#@group_required("Managers")
+#def detailing_edit(request, id, bill_id):
+#    try:
+#        detailing = Detailing.objects.get(id=id) 
+#        if request.method == "POST":
+#            detailing.category = Category.objects.filter(id=request.POST.get("category")).first()
+#            detailing.title = request.POST.get("title")
+#            detailing.details = request.POST.get("details")        
+#            detailing.price = request.POST.get("price")
+#            detailing.quantity = request.POST.get("quantity")
+#            if 'photo' in request.FILES:
+#                detailing.photo = request.FILES['photo']
+#            detailingform = DetailingForm(request.POST)
+#            if detailingform.is_valid():
+#                detailing.save()
+#                return HttpResponseRedirect(reverse('detailing_index', args=(bill_id,)))
+#            else:
+#                return render(request, "detailing/edit.html", {"form": detailingform, "bill_id": bill_id})            
+#        else:
+#            # Загрузка начальных данных
+#            detailingform = DetailingForm(initial={'category': detailing.category, 'subcategory': detailing.subcategory, 'title': detailing.title, 'details': detailing.details, 'price': detailing.price, 'quantity': detailing.quantity, 'photo': detailing.photo, })
+#            #print('->',detailing.photo )
+#            return render(request, "detailing/edit.html", {"form": detailingform, "bill_id": bill_id})
+#    except Detailing.DoesNotExist:
+#        return HttpResponseNotFound("<h2>Detailing not found</h2>")
+#    except Exception as exception:
+#        print(exception)
+#        return HttpResponse(exception)
 
-# Удаление данных из бд
-# Функция delete аналогичным функции edit образом находит объет и выполняет его удаление.
-@login_required
-@group_required("Managers")
-def detailing_delete(request, id, bill_id):
-    try:
-        detailing = Detailing.objects.get(id=id)
-        detailing.delete()
-        return HttpResponseRedirect(reverse('detailing_index', args=(bill_id,)))
-    except Detailing.DoesNotExist:
-        return HttpResponseNotFound("<h2>Detailing not found</h2>")
-    except Exception as exception:
-        print(exception)
-        return HttpResponse(exception)
+## Удаление данных из бд
+## Функция delete аналогичным функции edit образом находит объет и выполняет его удаление.
+#@login_required
+#@group_required("Managers")
+#def detailing_delete(request, id, bill_id):
+#    try:
+#        detailing = Detailing.objects.get(id=id)
+#        detailing.delete()
+#        return HttpResponseRedirect(reverse('detailing_index', args=(bill_id,)))
+#    except Detailing.DoesNotExist:
+#        return HttpResponseNotFound("<h2>Detailing not found</h2>")
+#    except Exception as exception:
+#        print(exception)
+#        return HttpResponse(exception)
 
-# Просмотр страницы с информацией о товаре для менеджера.
-@login_required
-@group_required("Managers")
-def detailing_read(request, id, bill_id):
-    try:
-        detailing = Detailing.objects.get(id=id) 
-        return render(request, "detailing/read.html", {"detailing": detailing, "bill_id": bill_id})
-    except Detailing.DoesNotExist:
-        return HttpResponseNotFound("<h2>Detailing not found</h2>")
-    except Exception as exception:
-        print(exception)
-        return HttpResponse(exception)
-
-# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
-# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
-# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
-class detailingViewSet(viewsets.ModelViewSet):
-    queryset = Detailing.objects.all()
-    serializer_class = DetailingSerializer
-    # http://127.0.0.1:8000/api/detailing/
+## Просмотр страницы с информацией о товаре для менеджера.
+#@login_required
+#@group_required("Managers")
+#def detailing_read(request, id, bill_id):
+#    try:
+#        detailing = Detailing.objects.get(id=id) 
+#        return render(request, "detailing/read.html", {"detailing": detailing, "bill_id": bill_id})
+#    except Detailing.DoesNotExist:
+#        return HttpResponseNotFound("<h2>Detailing not found</h2>")
+#    except Exception as exception:
+#        print(exception)
+#        return HttpResponse(exception)
 
 ###################################################################################################
 
@@ -722,6 +714,19 @@ def detailing_read(request, id, bill_id):
     except Exception as exception:
         print(exception)
         return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class detailingViewSet(viewsets.ModelViewSet):
+    queryset = Detailing.objects.all()
+    serializer_class = DetailingSerializer
+    # http://127.0.0.1:8000/api/detailing/
+
+class viewDetailingViewSet(viewsets.ModelViewSet):
+    queryset = ViewDetailing.objects.all()
+    serializer_class = ViewDetailingSerializer
+    # http://127.0.0.1:8000/api/viewdetailing/
 
 ###################################################################################################
 

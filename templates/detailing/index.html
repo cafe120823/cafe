@@ -158,7 +158,7 @@
 								<img style="width:100%; max-width:200px;" src="{% static 'images/catalog35.jpg' %}" alt="{{ p.title }}" >    						
 							{% else %}
 								{% if p.catalog.photo.url != None %}
-									<img style="width:100%; max-width:200px;" src="{{ p.photo.url}}" alt="{{ p.title }}" >
+									<img style="width:100%; max-width:200px;" src="{{ p.catalog.photo.url}}" alt="{{ p.title }}" >
 								{% endif %}
 							{% endif %}								
 						{% endif %}	

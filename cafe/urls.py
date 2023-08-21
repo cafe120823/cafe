@@ -31,6 +31,7 @@ router.register(r'catalog', views.catalogViewSet)
 router.register(r'viewcatalog', views.viewCatalogViewSet)
 router.register(r'bill', views.billViewSet)
 router.register(r'detailing', views.detailingViewSet)
+router.register(r'viewdetailing', views.viewDetailingViewSet)
 router.register(r'news', views.newsViewSet)
 
 urlpatterns = [

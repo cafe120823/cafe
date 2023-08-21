@@ -132,7 +132,36 @@ class Detailing(models.Model):
         # "Возврат суммы."
         return '%f' % (self.price*self.quantity)
 
-    
+# Представление базы данных детализация заказов
+class ViewDetailing(models.Model):
+    bill_id = models.IntegerField(_('bill_id'))
+    dateb = models.DateTimeField(_('dateb'))
+    place = models.CharField(_('place'), max_length=32)
+    total = models.DecimalField(_('total'), max_digits=9, decimal_places=2, blank=True, null=True)      
+    discount = models.IntegerField(_('discount'), default=0)
+    bonus = models.DecimalField(_('bonus'), max_digits=9, decimal_places=2, blank=True, null=True)
+    amount = models.DecimalField(_('amount'), max_digits=9, decimal_places=2, blank=True, null=True)
+    catalog_id = models.IntegerField(_('catalog_id'))
+    category = models.CharField(_('category_title'), max_length=128)
+    title = models.CharField(_('catalog_title'), max_length=255)
+    details = models.TextField(_('catalog_details'), blank=True, null=True)
+    photo = models.ImageField(_('photo'), upload_to='images/', blank=True, null=True)
+    price = models.DecimalField(_('price'), max_digits=9, decimal_places=2)
+    quantity = models.IntegerField(_('quantity'), default=1)
+    detailing_total = models.DecimalField(_('detailing_total'), max_digits=9, decimal_places=2, blank=True, null=True)  
+    class Meta:
+        # Параметры модели
+        # Переопределение имени таблицы
+        db_table = 'view_detailing'
+        # indexes - список индексов, которые необходимо определить в модели
+        indexes = [
+            models.Index(fields=['title']),
+        ]
+        # Сортировка по умолчанию
+        ordering = ['title']
+        # Таблицу не надо не добавлять не удалять
+        managed = False
+        
 # Корзина 
 class Basket(models.Model):
     basketday = models.DateTimeField(_('basketday'), auto_now_add=True)
