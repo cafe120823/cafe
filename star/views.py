@@ -18,9 +18,9 @@ from datetime import datetime, timedelta
 from django.core.mail import send_mail
 
 # Подключение моделей
-from .models import Category, Catalog, ViewCatalog, Basket, Bill, Detailing, ViewDetailing, News
+from .models import Category, Catalog, ViewCatalog, Basket, Bill, ViewBill, Detailing, ViewDetailing, News
 # Подключение cериализаторов
-from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, DetailingSerializer, ViewDetailingSerializer, NewsSerializer
+from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, ViewBillSerializer, DetailingSerializer, ViewDetailingSerializer, NewsSerializer
 from rest_framework import viewsets
 from rest_framework import generics
 #from rest_framework import generics
@@ -405,7 +405,7 @@ class viewCatalogViewSet(viewsets.ModelViewSet):
 @group_required("Managers")
 def bill_index(request):
     try:
-        bill = Bill.objects.all().order_by('-dateb')
+        bill = ViewBill.objects.all().order_by('-dateb')
         return render(request, "bill/index.html", {"bill": bill,})
     except Exception as exception:
         print(exception)
@@ -491,6 +491,11 @@ class billViewSet(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
     # http://127.0.0.1:8000/api/bill/
+
+class viewBillViewSet(viewsets.ModelViewSet):
+    queryset = ViewBill.objects.all()
+    serializer_class = ViewBillSerializer
+    # http://127.0.0.1:8000/api/viewbill/
 
 ###################################################################################################
 

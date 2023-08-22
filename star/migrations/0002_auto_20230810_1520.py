@@ -259,6 +259,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(new_data),
+        # Представления для SQLite и PostgreSQL
         migrations.RunSQL("""CREATE VIEW view_catalog AS
             SELECT catalog.id, catalog.category_id, category.title AS category, catalog.title, catalog.details, catalog.price, catalog.photo
             FROM catalog LEFT JOIN category ON catalog.category_id = category.id"""),
@@ -267,7 +268,17 @@ class Migration(migrations.Migration):
             view_catalog.title, view_catalog.details,  view_catalog.photo, detailing.price, detailing.quantity, detailing.price*detailing.quantity AS detailing_total
             FROM detailing LEFT JOIN bill ON detailing.bill_id=bill.id
             LEFT JOIN view_catalog ON detailing.catalog_id=view_catalog.id"""),
-        # SQLite
+        # Представление для SQLite
+#        migrations.RunSQL("""CREATE VIEW view_bill AS
+#SELECT id, dateb, place, total, discount, bonus, amount, (SELECT GROUP_CONCAT(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';
+#') FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
+#FROM bill"""),
+        # Представление для PostgreSQL
+        migrations.RunSQL("""CREATE VIEW view_bill AS
+SELECT id, dateb, place, total, discount, bonus, amount, (SELECT STRING_AGG(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';
+') FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
+FROM bill"""),
+        # Тригер SQLite
         #migrations.RunSQL("""CREATE TRIGGER bill_total_insert_detailing AFTER INSERT
         #    ON detailing
         #    BEGIN
@@ -283,7 +294,7 @@ class Migration(migrations.Migration):
         #    BEGIN
         #    UPDATE bill SET total = (SELECT SUM(price*quantity) FROM detailing WHERE bill_id=OLD.bill_id) WHERE id = OLD.bill_id;
         #    END;"""),
-        # PostgreSQL
+        # Тригер PostgreSQL
         migrations.RunSQL("""CREATE OR REPLACE FUNCTION insert_detailing()
               RETURNS trigger AS
             $$

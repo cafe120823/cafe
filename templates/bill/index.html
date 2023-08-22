@@ -11,6 +11,7 @@
 			<tr>
 				<th><p>{% trans "dateb" %}</p></th>
 				<th><p>{% trans "place" %}</p></th>
+				<th><p>{% trans "detailing" %}</p></th>
 				<th><p>{% trans "total" %}</p></th>
 				<th><p>{% trans "discount" %}</p></th>
 				<th><p>{% trans "bonus" %}</p></th>
@@ -27,6 +28,9 @@
 				</td>
 				<td>
 					<p>{{ n.place }}</p>
+				</td>
+				<td>
+					<p>{{ n.detailing | linebreaks}}</p>
 					<p><a href="{% url 'detailing_index' n.id%}">{% trans "detailing" %}</a></p>
 				</td>
 				<td>

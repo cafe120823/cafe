@@ -82,6 +82,7 @@ class ViewCatalog(models.Model):
         
 # Счет (заказ)
 class Bill(models.Model):
+    # Дата заказа
     dateb = models.DateTimeField(_('dateb'), auto_now_add=True)
     # Столик
     place = models.CharField(_('place'), max_length=32)
@@ -106,6 +107,28 @@ class Bill(models.Model):
     def __str__(self):
         # Вывод в тег SELECT 
         return "{}, {}: {}".format(self.dateb, self.place, self.amount)
+
+# Представление базы данных заказы
+class ViewBill(models.Model):
+    dateb = models.DateTimeField(_('dateb'))
+    place = models.CharField(_('place'), max_length=32)
+    total = models.DecimalField(_('total'), max_digits=9, decimal_places=2, blank=True, null=True)      
+    discount = models.IntegerField(_('discount'), default=0)
+    bonus = models.DecimalField(_('bonus'), max_digits=9, decimal_places=2, blank=True, null=True)
+    amount = models.DecimalField(_('amount'), max_digits=9, decimal_places=2, blank=True, null=True)
+    detailing = models.TextField(_('bill_details'), blank=True, null=True)
+    class Meta:
+        # Параметры модели
+        # Переопределение имени таблицы
+        db_table = 'view_bill'
+        # indexes - список индексов, которые необходимо определить в модели
+        indexes = [
+            models.Index(fields=['dateb']),
+        ]
+        # Сортировка по умолчанию
+        ordering = ['dateb']
+        # Таблицу не надо не добавлять не удалять
+        managed = False
 
 #  Детализация заказа
 class Detailing(models.Model):
