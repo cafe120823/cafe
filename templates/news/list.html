@@ -29,24 +29,8 @@
 									<p>{{ n.details | linebreaks }}</p>
 								</div>								
 								<div class="col-md-4">
-									{% if n.photo.url == "/media/images/news1.jpeg" %}
-										<img style="width:100%; max-width:400px;" src="{% static 'images/news1.jpeg' %}" alt="{{ n.title }}" title="{{ n.details }}">    
-									{% elif n.photo.url == "/media/images/news2.jpeg" %}
-										<img style="width:100%; max-width:400px;" src="{% static 'images/news2.jpeg' %}" alt="{{ n.title }}" title="{{ n.details }}">    
-									{% elif n.photo.url == "/media/images/news3.jpeg" %}
-										<img style="width:100%; max-width:400px;" src="{% static 'images/news3.jpeg' %}" alt="{{ n.title }}" title="{{ n.details }}">    
-									{% elif n.photo.url == "/media/images/news4.jpeg" %}
-										<img style="width:100%; max-width:400px;" src="{% static 'images/news4.jpeg' %}" alt="{{ n.title }}" title="{{ n.details }}">    
-									{% elif n.photo.url == "/media/images/news5.jpeg" %}
-										<img style="width:100%; max-width:400px;" src="{% static 'images/news5.jpeg' %}" alt="{{ n.title }}" title="{{ n.details }}">    
-									{% elif n.photo.url == "/media/images/news6.jpeg" %}
-										<img style="width:100%; max-width:400px;" src="{% static 'images/news6.jpeg' %}" alt="{{ n.title }}" title="{{ n.details }}">    
-									{% elif n.photo.url == "/media/images/news7.jpeg" %}
-										<img style="width:100%; max-width:400px;" src="{% static 'images/news7.jpeg' %}" alt="{{ n.title }}" title="{{ n.details }}">    
-									{% else %}
-										{% if n.photo.url != None %}
-											<img style="width:100%; max-width:400px;" src="{{ n.photo.url}}" alt="{{ n.title }}" title="{{ n.details }}">
-										{% endif %}
+									{% if n.photo.url != None %}
+										<img style="width:100%; max-width:400px;" src="{{ n.photo.url}}" alt="{{ n.photo.url }}">
 									{% endif %}
 								</div>
 							</div>

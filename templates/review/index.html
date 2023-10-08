@@ -10,8 +10,7 @@
 	<table id="myTable" class="table-manager" style="width:100%">
 		<thead>
 			<tr>
-				<th><p>{% trans "saleday" %}<br>{% trans "username" %}</p></th>
-				<th><p>{% trans "category" %}<br>{% trans "subcategory" %}<br>{% trans "title" %}</p></th>
+				<th><p>{% trans "dater" %}<br>{% trans "name" %}</p></th>
 				<th><p>{% trans "rating" %}</p></th>
 				<th><p>{% trans "review_details" %}</th>
 				<th><p></p></th>
@@ -21,15 +20,13 @@
 			{% for r in review %}
 			{% if r.rating != None %}
 			<tr>
-				<td><p>{{ r.saleday | date:"d.m.Y"}}<br>{{ r.username }}</p></td>
-				<td><p>{{ r.category }}<br>{{ r.title }}</p></td>
+				<td><p>{{ r.dater | date:"d.m.Y"}}<br>{{ r.client.name }}<br>{{ r.client.phone }}<br>{{ r.client.email }}</p></td>
 				<td><p>{{ r.rating }}</p></td>
 				<td><p>{{ r.details | linebreaks }}</p></td>
 				<td>
 					<form method="post">
 						{% csrf_token %}
-						<button type="submit" onclick="return confirm('Удалить запись?')" name="btn{{ r.id }}" id="btn_id{{ r.id }}" class="btn btn-outline-success" >{% trans "Delete" %}</button>
-						<input hidden type="text" name="sale_id" size="0" value="{{ r.id }}">
+						<a onclick="return confirm('Удалить запись?')" href="{% url 'review_delete' r.id %}">{% trans "Delete" %}</a>
 					</form>
 				</td>
 			</tr>

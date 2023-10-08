@@ -79,11 +79,35 @@ class ViewCatalog(models.Model):
         ordering = ['title']
         # Таблицу не надо не добавлять не удалять
         managed = False
+
+# Клиент для мобильного приложения 
+class Client(models.Model):
+    email = models.CharField(_('client_email'), max_length=128)
+    password = models.CharField(_('password'), max_length=128)
+    name = models.CharField(_('client_name'), max_length=128)
+    phone = models.CharField(_('client_phone'), max_length=32)
+    birthday = models.DateTimeField(_('birthday'))
+    class Meta:
+        # Параметры модели
+        # Переопределение имени таблицы
+        db_table = 'client'
+        # indexes - список индексов, которые необходимо определить в модели
+        indexes = [
+            models.Index(fields=['email']),
+            models.Index(fields=['name']),
+        ]
+        # Сортировка по умолчанию
+        ordering = ['name']
+    def __str__(self):
+        # Вывод в тег SELECT 
+        return "{}, {}, {}".format(self.name, self.phone, self.email)
         
 # Счет (заказ)
 class Bill(models.Model):
     # Дата заказа
     dateb = models.DateTimeField(_('dateb'), auto_now_add=True)
+    # Клиент
+    client = models.ForeignKey(Client, related_name='bill_client', on_delete=models.CASCADE)
     # Столик
     place = models.CharField(_('place'), max_length=32)
     # Сумма заказа
@@ -111,6 +135,7 @@ class Bill(models.Model):
 # Представление базы данных заказы
 class ViewBill(models.Model):
     dateb = models.DateTimeField(_('dateb'))
+    client = models.CharField(_('client'), max_length=256, blank=True, null=True)
     place = models.CharField(_('place'), max_length=32)
     total = models.DecimalField(_('total'), max_digits=9, decimal_places=2, blank=True, null=True)      
     discount = models.IntegerField(_('discount'), default=0)
@@ -159,6 +184,10 @@ class Detailing(models.Model):
 class ViewDetailing(models.Model):
     bill_id = models.IntegerField(_('bill_id'))
     dateb = models.DateTimeField(_('dateb'))
+    client_id = models.IntegerField(_('client_id'))
+    name = models.CharField(_('client_name'), max_length=128, blank=True, null=True)
+    email = models.CharField(_('client_email'), max_length=128, blank=True, null=True)
+    phone = models.CharField(_('client_phone'), max_length=32, blank=True, null=True)
     place = models.CharField(_('place'), max_length=32)
     total = models.DecimalField(_('total'), max_digits=9, decimal_places=2, blank=True, null=True)      
     discount = models.IntegerField(_('discount'), default=0)
@@ -205,6 +234,23 @@ class Basket(models.Model):
     # Сумма по товару
     def total(self):
         return self.price * self.quantity
+
+# Отзывы клиента 
+class Review(models.Model):
+    dater = models.DateTimeField(_('dater'), auto_now_add=True)
+    client = models.ForeignKey(Client, related_name='review_client', on_delete=models.CASCADE)
+    rating = models.IntegerField(_('rating'))
+    details = models.TextField(_('review_details'))
+    class Meta:
+        # Параметры модели
+        # Переопределение имени таблицы
+        db_table = 'review'
+        # indexes - список индексов, которые необходимо определить в модели
+        indexes = [
+            models.Index(fields=['dater']),
+        ]
+        # Сортировка по умолчанию
+        ordering = ['dater']
 
 # Новости 
 class News(models.Model):

@@ -32,6 +32,8 @@ router.register(r'viewcatalog', views.viewCatalogViewSet)
 router.register(r'bill', views.billViewSet)
 router.register(r'viewbill', views.viewBillViewSet)
 router.register(r'detailing', views.detailingViewSet)
+router.register(r'client', views.clientViewSet)
+router.register(r'review', views.reviewViewSet)
 router.register(r'viewdetailing', views.viewDetailingViewSet)
 router.register(r'news', views.newsViewSet)
 
@@ -77,9 +79,13 @@ urlpatterns = [
 
     path('basket/delete/<int:id>/', views.basket_delete, name='basket_delete'),
 
-    #path('reviews/list/', views.reviews_list, name='reviews_list'),
-    #path('reviews/edit/<int:id>/', views.reviews_edit, name='reviews_edit'),
+    path('review/index/', views.review_index, name='review_index'),
+    path('review/list/', views.review_list, name='review_list'),
+    path('review/delete/<int:id>/', views.review_delete, name='review_delete'),
     
+    path('client/index/', views.client_index, name='client_index'),
+    path('client/read/<int:id>/', views.client_read, name='client_read'),
+
     path('news/index/', views.news_index, name='news_index'),
     path('news/list/', views.news_list, name='news_list'),
     path('news/create/', views.news_create, name='news_create'),

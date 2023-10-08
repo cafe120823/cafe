@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Read" %}{% endblock title %}
+{% block header %}{% endblock header %}
+{% block content %}
+<h2>{% trans "client" %}</h2>
+<div class="row justify-content-center">
+	<div class="card" style="width:100%">
+		<div class="card-header">
+			<h4>{{ client.name }}</h4>
+			<p>{{ client.birthday | date:"d.m.Y"  }}</p>
+		</div>
+		<div class="card-body">
+			<p>{{ client.phone }}</p>
+			<p>{{ client.email }}</p>
+			<hr>
+			Заказы
+			<hr>
+			Отзывы
+		</div>
+		<div class="card-footer">
+		</div>
+	</div>
+	<br>
+	<div class="div-button-center">
+		<button onclick="history.back()" class="btn btn-outline-info" style="width:100px">{% trans "Back" %}</button>
+	</div>
+</div>
+{% endblock content %}

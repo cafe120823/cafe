@@ -31,7 +31,6 @@ def get_category(apps, val):
 
 # Добавить блюдо из меню
 def insert_catalog(apps, param_catalog):   
-    # Добавить товар
     Catalog = apps.get_model("star", "Catalog")
     catalog = Catalog()
     catalog.category_id = param_catalog[0]
@@ -43,17 +42,42 @@ def insert_catalog(apps, param_catalog):
     dict_catalog_price[catalog.id] = catalog.price    
     return
 
+# Добавить клиента мобильного приложения
+def insert_client(apps, param_client):   
+    Client = apps.get_model("star", "Client")
+    client = Client()
+    client.email = param_client[0]
+    client.password = param_client[1]
+    client.name = param_client[2]
+    client.phone = param_client[3]
+    client.birthday = param_client[4]
+    client.save()
+    return
+
+# Добавить отзывы от клиента мобильного приложения
+def insert_review(apps, param_review):   
+    Review = apps.get_model("star", "Review")
+    review = Review()
+    review.dater = param_review[0]
+    review.client_id = param_review[1]
+    review.rating = param_review[2]
+    review.details = param_review[3]
+    review.save()
+    review.dater = param_review[0]
+    review.save()
+    return
+
 # Добавить чек (заказ)
 def insert_bill(apps, param_bill):   
-    # Добавить товар
     Bill = apps.get_model("star", "Bill")
     bill = Bill()
     bill.dateb = param_bill[0]
-    bill.place = param_bill[1]
-    bill.total = param_bill[2]
-    bill.discount = param_bill[3]
-    bill.bonus = param_bill[4]
-    bill.amount = param_bill[5]
+    bill.client_id = param_bill[1]
+    bill.place = param_bill[2]
+    bill.total = param_bill[3]
+    bill.discount = param_bill[4]
+    bill.bonus = param_bill[5]
+    bill.amount = param_bill[6]
     bill.save()
     bill.dateb = param_bill[0]
     bill.save()
@@ -75,7 +99,6 @@ def insert_bill(apps, param_bill):
 # _catalog - список id каталога
 # _quantity - соответствующе ему количество
 def insert_detailing(apps, bill_id, _catalog, _quantity):   
-    # Добавить товар
     Detailing = apps.get_model("star", "Detailing")
     i=0
     total=0
@@ -125,6 +148,29 @@ def new_data(apps, schema_editor):
     user = User.objects.create_user(username='manager', password='Ss0066+-', email='manager@mail.ru', first_name='Менеджер',)
     managers.user_set.add(user)
     print("Менеджер добавлен в группу менеджеров")
+
+    # Пользователи для мобильного приложения пароль 123456 в SHA256 равен 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
+    parameters = ["user1@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Жерихов Дмитрий", "+7-905-123-4567", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user2@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Тесля Валерий", "+7-905-452-3252", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user3@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Пьяных Анна", "+7-905-326-7854", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user4@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Шишик Александр", "+7-905-951-3657", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user5@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Сенько Андрей", "+7-905-952-3256", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user6@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Пикалова Алёна", "+7-905-712-9635", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user7@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Федченко Олеся", "+7-905-256-3210", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user8@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Мороз Дарья", "+7-905-128-6824", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user9@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Баталина Анна", "+7-905-934-6423", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    parameters = ["user10@mail.ru", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "Боцман Юлия", "+7-905-934-9521", datetime.now() - timedelta(days=random.randint(8000, 22000))]
+    insert_client(apps, parameters)
+    print("Добавлены пользователи для мобильного приложения ")
 
     # Новости
     parameters = [datetime.now() - timedelta(days=35), "Заголовок новости", """Текст новости""", "images/news1.jpeg" ]
@@ -209,47 +255,81 @@ def new_data(apps, schema_editor):
     print("Добавлен каталог")
 
     #1 Заказы
-    parameters = [datetime.now() - timedelta(days=30), "№1", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 1, "№1", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 1, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #2 Заказы
-    parameters = [datetime.now() - timedelta(days=30), "№2", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 2, "№2", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 2, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #3 Заказы
-    parameters = [datetime.now() - timedelta(days=30), "№3", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 3, "№3", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 3, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #4 Заказы
-    parameters = [datetime.now() - timedelta(days=30), "№4", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 4, "№4", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 4, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #5 Заказы
-    parameters = [datetime.now() - timedelta(days=30), "№5", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 5, "№5", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 5, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #6 Заказы
-    parameters = [datetime.now() - timedelta(days=29), "№1", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 6, "№1", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 6, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #7 Заказы
-    parameters = [datetime.now() - timedelta(days=29), "№2", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 7, "№2", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 7, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #8 Заказы
-    parameters = [datetime.now() - timedelta(days=29), "№3", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 8, "№3", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 8, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #9 Заказы
-    parameters = [datetime.now() - timedelta(days=29), "№4", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 9, "№4", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 9, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #10 Заказы
-    parameters = [datetime.now() - timedelta(days=29), "№5", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 10, "№5", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 10, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
 
     print("Добавлены заказы")
+
+    #1 Отзывы
+    parameters = [datetime.now() - timedelta(days=30), 1, 5,  "Всё прошло на высшем уровне! Спасибо большое за то, что вы есть!"]
+    insert_review(apps, parameters)
+    #2 Отзывы
+    parameters = [datetime.now() - timedelta(days=29), 2, 5,  "Отличное место. Прекрасное расположение, легко добраться. Очень отзывчивые администраторы, все объяснили, подсказали с напитками, с посадкой в общем находка, а не администраторы."]
+    insert_review(apps, parameters)
+    #3 Отзывы
+    parameters = [datetime.now() - timedelta(days=28), 3, 5,  "Кафе очень хорошее. Обслуживание на высоте. Кухня очень вкусная."]
+    insert_review(apps, parameters)
+    #4 Отзывы
+    parameters = [datetime.now() - timedelta(days=27), 4, 5,  "Нам понравилось все от момента, как нас встретили при выборе заведения, составлении меню до сервировки, обслуживания во время банкета."]
+    insert_review(apps, parameters)
+    #5 Отзывы
+    parameters = [datetime.now() - timedelta(days=26), 5, 5,  "Спасибо за классный вечер! Долго выбирали зал и ни разу не пожалели что выбрали ваше заведение."]
+    insert_review(apps, parameters)
+    #6 Отзывы
+    parameters = [datetime.now() - timedelta(days=25), 6, 5,  "Благодарю заведение за прекрасный вечер! Все было очень красиво и вкусно. Официанты очень внимательные."]
+    insert_review(apps, parameters)
+    #7 Отзывы
+    parameters = [datetime.now() - timedelta(days=24), 7, 5,  "Банкетный зал уютный и светлый! Весьма вкусная кухня! Чистота, организованность, порядочность!"]
+    insert_review(apps, parameters)
+    #8 Отзывы
+    parameters = [datetime.now() - timedelta(days=23), 8, 5,  "Отличное место! Чисто, уютно, вкусно! Замечательный сервис и персонал."]
+    insert_review(apps, parameters)
+    #9 Отзывы
+    parameters = [datetime.now() - timedelta(days=22), 9, 5,  "Хотим выразить благодарность всей команде этого замечательного заведения. Спасибо за помощь в выборе меню и отличный сервис. Доверились рекомендациям своих знакомых и ни чуть не пожалели. Кухня очень вкусная, зал уютный."]
+    insert_review(apps, parameters)
+    #10 Отзывы
+    parameters = [datetime.now() - timedelta(days=21), 10, 5,  " Проводили день рождение и все прошло на высшем уровне , прям как хотели, даже лучше !! Все продумано и очень вкусно!!! "]
+    insert_review(apps, parameters)
+
+    print("Добавлены отзывы")
+
 
 class Migration(migrations.Migration):
 
@@ -264,19 +344,22 @@ class Migration(migrations.Migration):
             SELECT catalog.id, catalog.category_id, category.title AS category, catalog.title, catalog.details, catalog.price, catalog.photo
             FROM catalog LEFT JOIN category ON catalog.category_id = category.id"""),
         migrations.RunSQL("""CREATE VIEW view_detailing AS
-            SELECT detailing.id, detailing.bill_id, bill.dateb, bill.place, bill.total, bill.discount, bill.bonus, bill.amount, detailing.catalog_id, view_catalog.category, 
+            SELECT detailing.id, detailing.bill_id, bill.dateb, bill.client_id, client.name, client.email, client.phone, bill.place, bill.total, bill.discount, bill.bonus, bill.amount, detailing.catalog_id, view_catalog.category, 
             view_catalog.title, view_catalog.details,  view_catalog.photo, detailing.price, detailing.quantity, detailing.price*detailing.quantity AS detailing_total
             FROM detailing LEFT JOIN bill ON detailing.bill_id=bill.id
+            LEFT JOIN client ON bill.client_id=client.id
             LEFT JOIN view_catalog ON detailing.catalog_id=view_catalog.id"""),
         # Представление для SQLite
 #        migrations.RunSQL("""CREATE VIEW view_bill AS
-#SELECT id, dateb, place, total, discount, bonus, amount, (SELECT GROUP_CONCAT(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';
-#') FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
+#SELECT id, dateb, (SELECT (name || ': ' || phone || ', ' || email) FROM view_detailing WHERE bill.id=view_detailing.bill_id GROUP BY (name || ': ' || phone || ', ' || email) ) AS client,
+#place, total, discount, bonus, amount, (SELECT GROUP_CONCAT(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';') 
+#FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
 #FROM bill"""),
         # Представление для PostgreSQL
         migrations.RunSQL("""CREATE VIEW view_bill AS
-SELECT id, dateb, place, total, discount, bonus, amount, (SELECT STRING_AGG(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';
-') FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
+SELECT id, dateb, (SELECT (name || ': ' || phone || ', ' || email) FROM view_detailing WHERE bill.id=view_detailing.bill_id GROUP BY (name || ': ' || phone || ', ' || email) ) AS client, 
+place, total, discount, bonus, amount, (SELECT STRING_AGG(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';') 
+FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
 FROM bill"""),
         # Тригер SQLite
         #migrations.RunSQL("""CREATE TRIGGER bill_total_insert_detailing AFTER INSERT

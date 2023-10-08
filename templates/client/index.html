@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "clients" %}{% endblock title %}
+{% block header %}{% endblock header %}
+{% block content %}
+<h2>{% trans "clients" %}</h2>
+{% if client.count > 0 %}
+<div class="row">
+	<table id="myTable" class="table-manager" style="width:100%">
+		<thead>
+			<tr>
+				<th><p>{% trans "name" %}</p></th>
+				<th><p>{% trans "email" %}</p></th>
+				<th><p>{% trans "phone" %}</p></th>
+				<th><p>{% trans "birthday" %}</p></th>
+				<th><p></p></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for n in client %}
+			<tr>
+				<td>
+					<p>{{ n.name }}</p>
+				</td>
+				<td>
+					<p>{{ n.email }}</p>
+				</td>
+				<td>
+					<p>{{ n.phone }}</p>
+				</td>
+				<td>
+					<p>{{ n.birthday | date:"d.m.Y" }}</p>
+				</td>
+				<td>
+					<p>
+					<a href="{% url 'client_read' n.id %}">{% trans "Read" %}</a> 
+					</p>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endif %}
+{% endblock content %}

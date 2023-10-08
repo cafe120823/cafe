@@ -3,7 +3,7 @@
 # в нативные типы данных Python, которые затем могут быть легко срендерены в JSON, XML или другие типы контента. 
 # Сериализаторы также обеспечивают десериализацию, позволяя преобразовать спарсенные данные обратно в сложные типы после проверки входящих данных.
 from rest_framework import serializers
-from .models import Category, Catalog, ViewCatalog, Bill, ViewBill, Detailing, ViewDetailing, News
+from .models import Category, Catalog, ViewCatalog, Bill, ViewBill, Detailing, ViewDetailing, Client, Review, News
 
 class CategorySerializer(serializers.ModelSerializer ):
     class Meta:
@@ -57,6 +57,20 @@ class ViewDetailingSerializer(serializers.ModelSerializer):
         #fields = ("id", "bill_id", "dateb", "place", "total", "discount", "bonus", "amount", "catalog_id", "category", "title", "details", "photo", "price", "quantity", "detailing_total")
         # Обратите внимание, что внешний ключ category мы обозначаем как в модели, а не category_id, как в таблице.
         #fields = ("id", "bill", "dateb", "place", "total", "discount", "bonus", "amount", "catalog", "category", "title", "details", "photo", "price", "quantity", "detailing_total")
+        #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
+        fields = "__all__"
+
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        #fields = ("id", "email", "password", "name", "phone", "birthday")
+        #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
+        fields = "__all__"
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        #fields = ("id", "dater", "client_id", "rating", "details")
         #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
         fields = "__all__"
 

@@ -18,9 +18,9 @@ from datetime import datetime, timedelta
 from django.core.mail import send_mail
 
 # Подключение моделей
-from .models import Category, Catalog, ViewCatalog, Basket, Bill, ViewBill, Detailing, ViewDetailing, News
+from .models import Category, Catalog, ViewCatalog, Basket, Bill, ViewBill, Detailing, ViewDetailing, Client, Review, News
 # Подключение cериализаторов
-from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, ViewBillSerializer, DetailingSerializer, ViewDetailingSerializer, NewsSerializer
+from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, ViewBillSerializer, DetailingSerializer, ViewDetailingSerializer, ClientSerializer, ReviewSerializer, NewsSerializer
 from rest_framework import viewsets
 from rest_framework import generics
 #from rest_framework import generics
@@ -859,6 +859,108 @@ def basket_delete(request, id):
 #    except Exception as exception:
 #        print(exception)
 #        return HttpResponse(exception)
+
+###################################################################################################
+
+# Список для изменения с кнопками создать, изменить, удалить
+@login_required
+@group_required("Managers")
+def client_index(request):
+    try:
+        client = Client.objects.all().order_by('name')
+        return render(request, "client/index.html", {"client": client,})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+    
+# Просмотр страницы read.html для просмотра объекта.
+@login_required
+def client_read(request, id):
+    try:
+        client = Client.objects.get(id=id) 
+        return render(request, "client/read.html", {"client": client})
+    except Client.DoesNotExist:
+        return HttpResponseNotFound("<h2>Client not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class clientViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    # http://127.0.0.1:8000/api/client/
+
+#class clientViewSet(generics.ListAPIView ):
+
+#    queryset = Client.objects.all()
+#    serializer_class = ClientSerializer
+#    #http://127.0.0.1:8000/api/client/
+
+
+#class clientDetail(generics.RetrieveUpdateDestroyAPIView):
+#    queryset = Client.objects.all()
+#    serializer_class = ClientSerializer
+
+###################################################################################################
+
+# Список для изменения с кнопками создать, изменить, удалить
+@login_required
+@group_required("Managers")
+def review_index(request):
+    try:
+        review = Review.objects.all().order_by('-dater')
+        return render(request, "review/index.html", {"review": review,})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Список для просмотра
+#@login_required
+def review_list(request):
+    try:
+        review = Review.objects.all().order_by('-dater')
+        return render(request, "review/list.html", {"review": review,})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+    
+# Удаление данных из бд
+# Функция delete аналогичным функции edit образом находит объет и выполняет его удаление.
+@login_required
+@group_required("Managers")
+def review_delete(request, id):
+    try:
+        review = Review.objects.get(id=id)
+        review.delete()
+        return HttpResponseRedirect(reverse('review_index', ))
+    except Review.DoesNotExist:
+        return HttpResponseNotFound("<h2>Review not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class reviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    # http://127.0.0.1:8000/api/review/
+
+#class reviewViewSet(generics.ListAPIView ):
+
+#    queryset = Review.objects.all()
+#    serializer_class = ReviewSerializer
+#    #http://127.0.0.1:8000/api/review/
+
+
+#class reviewDetail(generics.RetrieveUpdateDestroyAPIView):
+#    queryset = Review.objects.all()
+#    serializer_class = ReviewSerializer
 
 ###################################################################################################
 

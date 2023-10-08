@@ -10,7 +10,7 @@
 		<thead>
 			<tr>
 				<th><p>{% trans "dateb" %}</p></th>
-				<th><p>{% trans "place" %}</p></th>
+				<th><p>{% trans "place" %}<br>{% trans "client" %}</p></th>
 				<th><p>{% trans "detailing" %}</p></th>
 				<th><p>{% trans "total" %}</p></th>
 				<th><p>{% trans "discount" %}</p></th>
@@ -27,7 +27,7 @@
 					<p>{{ n.dateb | date:"d.m.Y H:i" }}</p>
 				</td>
 				<td>
-					<p>{{ n.place }}</p>
+					<p>{{ n.place }}<br>{{ n.client }}</p>
 				</td>
 				<td>
 					<p>{{ n.detailing | linebreaks}}</p>
