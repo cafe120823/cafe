@@ -135,6 +135,7 @@ class Bill(models.Model):
 # Представление базы данных заказы
 class ViewBill(models.Model):
     dateb = models.DateTimeField(_('dateb'))
+    client_id = models.IntegerField(_('client_id'))
     client = models.CharField(_('client'), max_length=256, blank=True, null=True)
     place = models.CharField(_('place'), max_length=32)
     total = models.DecimalField(_('total'), max_digits=9, decimal_places=2, blank=True, null=True)      
@@ -220,7 +221,8 @@ class Basket(models.Model):
     catalog = models.ForeignKey(Catalog, related_name='basket_catalog', on_delete=models.CASCADE)
     price = models.DecimalField(_('price'), max_digits=9, decimal_places=2)
     quantity = models.IntegerField(_('quantity'), default=1)
-    user = models.ForeignKey(User, related_name='user_basket', on_delete=models.CASCADE)
+    #user = models.ForeignKey(User, related_name='user_basket', on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, related_name='basket_client', on_delete=models.CASCADE)
     class Meta:
         # Параметры модели
         # Переопределение имени таблицы

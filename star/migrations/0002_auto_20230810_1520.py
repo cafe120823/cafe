@@ -351,13 +351,13 @@ class Migration(migrations.Migration):
             LEFT JOIN view_catalog ON detailing.catalog_id=view_catalog.id"""),
         # Представление для SQLite
 #        migrations.RunSQL("""CREATE VIEW view_bill AS
-#SELECT id, dateb, (SELECT (name || ': ' || phone || ', ' || email) FROM view_detailing WHERE bill.id=view_detailing.bill_id GROUP BY (name || ': ' || phone || ', ' || email) ) AS client,
+#SELECT id, dateb, client_id, (SELECT (name || ': ' || phone || ', ' || email) FROM view_detailing WHERE bill.id=view_detailing.bill_id GROUP BY (name || ': ' || phone || ', ' || email) ) AS client,
 #place, total, discount, bonus, amount, (SELECT GROUP_CONCAT(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';') 
 #FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
 #FROM bill"""),
         # Представление для PostgreSQL
         migrations.RunSQL("""CREATE VIEW view_bill AS
-SELECT id, dateb, (SELECT (name || ': ' || phone || ', ' || email) FROM view_detailing WHERE bill.id=view_detailing.bill_id GROUP BY (name || ': ' || phone || ', ' || email) ) AS client, 
+SELECT id, dateb, client_id, (SELECT (name || ': ' || phone || ', ' || email) FROM view_detailing WHERE bill.id=view_detailing.bill_id GROUP BY (name || ': ' || phone || ', ' || email) ) AS client, 
 place, total, discount, bonus, amount, (SELECT STRING_AGG(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';') 
 FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
 FROM bill"""),
