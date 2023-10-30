@@ -3,13 +3,15 @@
 {% block title %}{% trans "View" %}{% endblock title %}
 {% block header %}{% endblock header %}
 {% block content %}
-<h2>{% trans "category" %}</h2>
+<h2>{% trans "configuration" %}</h2>
 <div class="row justify-content-center">
 	<div class="card" style="width:100%">
 		<div class="card-header">
+			<h4>{{ configuration.datec | date:"d.m.Y H:i"  }}</h4>
 		</div>
 		<div class="card-body">
-			<h4>{{ category.title }}</h4>
+			<p><strong>{% trans "configuration_discount" %}</strong>: {{ bill.discount }}</p>
+			<p><strong>{% trans "configuration_bonus" %}</strong>: {{ bill.bonus }}</p>
 		</div>
 		<div class="card-footer">
 		</div>

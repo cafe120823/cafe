@@ -37,10 +37,23 @@ def insert_catalog(apps, param_catalog):
     catalog.title = param_catalog[1]
     catalog.details = param_catalog[2]
     catalog.price = param_catalog[3]
-    catalog.photo = param_catalog[4]
+    catalog.availability = param_catalog[4]
+    catalog.photo = param_catalog[5]
     catalog.save()
     dict_catalog_price[catalog.id] = catalog.price    
     return
+
+# Добавить настройки: скидки, бонусы
+def insert_configuration(apps, param):
+    Configuration = apps.get_model("star", "Configuration")
+    configuration = Configuration()
+    configuration.datec = param[0]
+    configuration.discount = param[1]
+    configuration.bonus = param[2]
+    configuration.save()
+    configuration.datec = param[0]
+    configuration.save()
+    return 
 
 # Добавить клиента мобильного приложения
 def insert_client(apps, param_client):   
@@ -74,13 +87,29 @@ def insert_bill(apps, param_bill):
     bill.dateb = param_bill[0]
     bill.client_id = param_bill[1]
     bill.place = param_bill[2]
-    bill.total = param_bill[3]
-    bill.discount = param_bill[4]
-    bill.bonus = param_bill[5]
-    bill.amount = param_bill[6]
+    bill.comments = param_bill[3]
+    bill.total = param_bill[4]
+    bill.discount = param_bill[5]
+    bill.bonus = param_bill[6]
+    bill.amount = param_bill[7]
     bill.save()
     bill.dateb = param_bill[0]
     bill.save()
+    return
+
+# Добавить бронирование
+def insert_reservation(apps, param_reservation):   
+    Reservation = apps.get_model("star", "Reservation")
+    reservation = Reservation()
+    reservation.datea = param_reservation[0]
+    reservation.dater = param_reservation[1]
+    reservation.client_id = param_reservation[2]
+    reservation.quantity = param_reservation[3]
+    reservation.details = param_reservation[4]
+    reservation.comments = param_reservation[5]
+    reservation.save()
+    reservation.datea = param_reservation[0]
+    reservation.save()
     return
 
 ## Добавить детализацию чека (заказа)
@@ -172,130 +201,152 @@ def new_data(apps, schema_editor):
     insert_client(apps, parameters)
     print("Добавлены пользователи для мобильного приложения ")
 
+    # Добавить настройки: скидки, бонусы
+    parameters = [datetime.now() - timedelta(days=30), 5, 3 ]
+    insert_configuration(apps, parameters)
+    parameters = [datetime.now() - timedelta(days=15), 5, 5 ]
+    insert_configuration(apps, parameters)
+    parameters = [datetime.now() - timedelta(days=5), 3, 5 ]
+    insert_configuration(apps, parameters)
+
     # Новости
     parameters = [datetime.now() - timedelta(days=35), "Заголовок новости", """Текст новости""", "images/news1.jpeg" ]
     insert_news(apps, parameters)
     print("Добавлены новости")
 
     #1 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Салаты"),  "Домашний салат", """Классика домашнего салата из помидоров, огурцов,лука, заправлен майонезом или растительным маслом""", 1200, "images/catalog01.jpg"]
+    parameters = [get_category(apps, "Салаты"),  "Домашний салат", """Классика домашнего салата из помидоров, огурцов,лука, заправлен майонезом или растительным маслом""", 1200, 1, "images/catalog01.jpg"]
     insert_catalog(apps, parameters)    
     #2 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Салаты"),  "Оливье классический", """Салат оливье — король салатов, без которого ни один новый год не может быть полноценным. Представляем вашему вниманию наш классический вариант всеми любимого оливье""", 1450, "images/catalog02.jpg"]
+    parameters = [get_category(apps, "Салаты"),  "Оливье классический", """Салат оливье — король салатов, без которого ни один новый год не может быть полноценным. Представляем вашему вниманию наш классический вариант всеми любимого оливье""", 1450, 1, "images/catalog02.jpg"]
     insert_catalog(apps, parameters)    
     #3 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Салаты"),  "Салат \"Гнездо глухаря\"", """В основу салата входит: куриный рулет, листья салата, заправлен майонезом, посыпается картофелем пай, поверх ложат перепелинные яйца""", 1800, "images/catalog03.jpg"]
+    parameters = [get_category(apps, "Салаты"),  "Салат \"Гнездо глухаря\"", """В основу салата входит: куриный рулет, листья салата, заправлен майонезом, посыпается картофелем пай, поверх ложат перепелинные яйца""", 1800, 1, "images/catalog03.jpg"]
     insert_catalog(apps, parameters)    
     #4 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Салаты"),  "Салат \"Греческий\"", """Классический греческий салат в состав входит: сыр Фета, огурцы, помидоры, болгарский перец, лист салата, маслины, оливки заправлен на оливковом масле с добавлением бальзамического уксуса""", 1850, "images/catalog04.jpg"]
+    parameters = [get_category(apps, "Салаты"),  "Салат \"Греческий\"", """Классический греческий салат в состав входит: сыр Фета, огурцы, помидоры, болгарский перец, лист салата, маслины, оливки заправлен на оливковом масле с добавлением бальзамического уксуса""", 1850, 1, "images/catalog04.jpg"]
     insert_catalog(apps, parameters)    
     #5 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Салаты"),  "Салат \"Деревенский\"", """Кубиками нарезн филе курицы, добавлена консервированная фасоль, кукуруза, корнишоны, сухари, заправляются на майонезе""", 2100, "images/catalog05.jpg"]
+    parameters = [get_category(apps, "Салаты"),  "Салат \"Деревенский\"", """Кубиками нарезн филе курицы, добавлена консервированная фасоль, кукуруза, корнишоны, сухари, заправляются на майонезе""", 2100, 1, "images/catalog05.jpg"]
     insert_catalog(apps, parameters)    
     #6 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Первые блюда"),  "Пельмени с бульоном", """Фирменные пельмени из отборной говядины приготовленные на пару с фирменным бульоном""", 1600, "images/catalog06.jpg"]
+    parameters = [get_category(apps, "Первые блюда"),  "Пельмени с бульоном", """Фирменные пельмени из отборной говядины приготовленные на пару с фирменным бульоном""", 1600, 1, "images/catalog06.jpg"]
     insert_catalog(apps, parameters)    
     #7 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Первые блюда"),  "Солянка", """Ароматный суп с мясными деликатесами""", 1700, "images/catalog07.jpg"]
+    parameters = [get_category(apps, "Первые блюда"),  "Солянка", """Ароматный суп с мясными деликатесами""", 1700, 1, "images/catalog07.jpg"]
     insert_catalog(apps, parameters)    
     #8 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Первые блюда"),  "Уха по царски", """Бульон на рыбных костях, семга, судак, овощи""", 1850, "images/catalog08.jpg"]
+    parameters = [get_category(apps, "Первые блюда"),  "Уха по царски", """Бульон на рыбных костях, семга, судак, овощи""", 1850, 1, "images/catalog08.jpg"]
     insert_catalog(apps, parameters)    
     #9 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Первые блюда"),  "Лапша по-домашнему", """Лапша по-домашнему (на курином бульоне)""", 1300, "images/catalog09.jpg"]
+    parameters = [get_category(apps, "Первые блюда"),  "Лапша по-домашнему", """Лапша по-домашнему (на курином бульоне)""", 1300, 1, "images/catalog09.jpg"]
     insert_catalog(apps, parameters)    
     #10 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Первые блюда"),  "Твиндян тиге", """Традиционный корейский суп на основе соевой пасты с мясом говядины луком, помидорами, перцем, кабачками, тубу и яйцом""", 2000, "images/catalog10.jpg"]
+    parameters = [get_category(apps, "Первые блюда"),  "Твиндян тиге", """Традиционный корейский суп на основе соевой пасты с мясом говядины луком, помидорами, перцем, кабачками, тубу и яйцом""", 2000, 1, "images/catalog10.jpg"]
     insert_catalog(apps, parameters)    
     #11 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Вторые блюда"),  "Бефстроганов с пюре", """Говядина вырезка, грибы шампиньоны, сливки, сметана, горчица""", 3700, "images/catalog11.jpg"]
+    parameters = [get_category(apps, "Вторые блюда"),  "Бефстроганов с пюре", """Говядина вырезка, грибы шампиньоны, сливки, сметана, горчица""", 3700, 1, "images/catalog11.jpg"]
     insert_catalog(apps, parameters)    
     #12 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Вторые блюда"),  "Мясо с грибами в сливочном соусе", """Телятина, шампиньоны, сливочный соус""", 3000, "images/catalog12.jpg"]
+    parameters = [get_category(apps, "Вторые блюда"),  "Мясо с грибами в сливочном соусе", """Телятина, шампиньоны, сливочный соус""", 3000, 1, "images/catalog12.jpg"]
     insert_catalog(apps, parameters)    
     #13 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Вторые блюда"),  "Картофель по-домашнему с мясом", """Домашнее блюдо жаренный картофель с мясом""", 3000, "images/catalog13.jpg"]
+    parameters = [get_category(apps, "Вторые блюда"),  "Картофель по-домашнему с мясом", """Домашнее блюдо жаренный картофель с мясом""", 3000, 1, "images/catalog13.jpg"]
     insert_catalog(apps, parameters)    
     #14 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Вторые блюда"),  "Мясо по-гречески", """Говяжья отбивная под сыром, грибы шампиньоны, яйцо, картофель фри""", 3000, "images/catalog14.jpg"]
+    parameters = [get_category(apps, "Вторые блюда"),  "Мясо по-гречески", """Говяжья отбивная под сыром, грибы шампиньоны, яйцо, картофель фри""", 3000, 1, "images/catalog14.jpg"]
     insert_catalog(apps, parameters)    
     #15 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Вторые блюда"),  "Мясо по-французски", """Говяжья отбивная, запеченная с помидорами и сыром, картофель фри""", 3000, "images/catalog15.jpg"]
+    parameters = [get_category(apps, "Вторые блюда"),  "Мясо по-французски", """Говяжья отбивная, запеченная с помидорами и сыром, картофель фри""", 3000, 1, "images/catalog15.jpg"]
     insert_catalog(apps, parameters)    
     #16 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Закуски"),  "Мясное ассорти", """Говядина х/к, казы, бастурма, рулет из индейки, ципленок х/к""", 5000, "images/catalog16.jpg"]
+    parameters = [get_category(apps, "Закуски"),  "Мясное ассорти", """Говядина х/к, казы, бастурма, рулет из индейки, ципленок х/к""", 5000, 1, "images/catalog16.jpg"]
     insert_catalog(apps, parameters)    
     #17 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Закуски"),  "Овощи по-кавказски", """Нарезка из свежих овощей (помидоры, огурцы, болгарский перец), сыр брынза и свежая зелень""", 2250, "images/catalog17.jpg"]
+    parameters = [get_category(apps, "Закуски"),  "Овощи по-кавказски", """Нарезка из свежих овощей (помидоры, огурцы, болгарский перец), сыр брынза и свежая зелень""", 2250, 1, "images/catalog17.jpg"]
     insert_catalog(apps, parameters)    
     #18 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Закуски"),  "Рыбное ассорти", """Нарезка семги, балык и скумбрии""", 5300, "images/catalog18.jpg"]
+    parameters = [get_category(apps, "Закуски"),  "Рыбное ассорти", """Нарезка семги, балык и скумбрии""", 5300, 1, "images/catalog18.jpg"]
     insert_catalog(apps, parameters)    
     #19 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Закуски"),  "Сельдь по-русски", """Нарезка селедки, вареная картошка, маринованные огурци и лук""", 1750, "images/catalog19.jpg"]
+    parameters = [get_category(apps, "Закуски"),  "Сельдь по-русски", """Нарезка селедки, вареная картошка, маринованные огурци и лук""", 1750, 1, "images/catalog19.jpg"]
     insert_catalog(apps, parameters)    
     #20 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Закуски"),  "Сатэ", """Обжаренные баклажаны в кляре с начиной из помидора и тар-тара""", 1600, "images/catalog20.jpg"]
+    parameters = [get_category(apps, "Закуски"),  "Сатэ", """Обжаренные баклажаны в кляре с начиной из помидора и тар-тара""", 1600, 1, "images/catalog20.jpg"]
     insert_catalog(apps, parameters)    
     #21 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Напитки"),  "Минеральная вода \"ASU\" 1л", """Минеральная вода""", 850, "images/catalog21.jpg"]
+    parameters = [get_category(apps, "Напитки"),  "Минеральная вода \"ASU\" 1л", """Минеральная вода""", 850, 1, "images/catalog21.jpg"]
     insert_catalog(apps, parameters)    
     #22 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Напитки"),  "Морс Смородины 1л", """Морс Смородины""", 1700, "images/catalog22.jpg"]
+    parameters = [get_category(apps, "Напитки"),  "Морс Смородины 1л", """Морс Смородины""", 1700, 1, "images/catalog22.jpg"]
     insert_catalog(apps, parameters)    
     #23 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Напитки"),  "Лимонад Киви лайм 1л", """Лимонад Киви лайм""", 2500, "images/catalog23.jpg"]
+    parameters = [get_category(apps, "Напитки"),  "Лимонад Киви лайм 1л", """Лимонад Киви лайм""", 2500, 1, "images/catalog23.jpg"]
     insert_catalog(apps, parameters)    
     #24 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Напитки"),  "Лимонад Клубника лайм 1л", """Лимонад Клубника лайм""", 2500, "images/catalog24.jpg"]
+    parameters = [get_category(apps, "Напитки"),  "Лимонад Клубника лайм 1л", """Лимонад Клубника лайм""", 2500, 1, "images/catalog24.jpg"]
     insert_catalog(apps, parameters)    
     #25 Каталог parameters - товар, (категория, название, описание, цена, фото)
-    parameters = [get_category(apps, "Напитки"),  "Сок в ассортименте 0,95л", """Сок в ассортименте 0,95л""", 1500, "images/catalog25.jpg"]
+    parameters = [get_category(apps, "Напитки"),  "Сок в ассортименте 0,95л", """Сок в ассортименте 0,95л""", 1500, 1, "images/catalog25.jpg"]
     insert_catalog(apps, parameters)    
     print("Добавлен каталог")
 
     #1 Заказы
-    parameters = [datetime.now() - timedelta(days=30), 1, "№1", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 1, "№1", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 1, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #2 Заказы
-    parameters = [datetime.now() - timedelta(days=30), 2, "№2", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 2, "№2", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 2, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #3 Заказы
-    parameters = [datetime.now() - timedelta(days=30), 3, "№3", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 3, "№3", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 3, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #4 Заказы
-    parameters = [datetime.now() - timedelta(days=30), 4, "№4", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 4, "№4", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 4, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #5 Заказы
-    parameters = [datetime.now() - timedelta(days=30), 5, "№5", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=30), 5, "№5", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 5, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #6 Заказы
-    parameters = [datetime.now() - timedelta(days=29), 6, "№1", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 6, "№1", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 6, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #7 Заказы
-    parameters = [datetime.now() - timedelta(days=29), 7, "№2", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 7, "№2", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 7, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #8 Заказы
-    parameters = [datetime.now() - timedelta(days=29), 8, "№3", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 8, "№3", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 8, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #9 Заказы
-    parameters = [datetime.now() - timedelta(days=29), 9, "№4", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 9, "№4", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 9, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
     #10 Заказы
-    parameters = [datetime.now() - timedelta(days=29), 10, "№5", 0, 0, 0, 0 ]
+    parameters = [datetime.now() - timedelta(days=29), 10, "№5", "", 0, 0, 0, 0 ]
     insert_bill(apps, parameters)
     insert_detailing(apps, 10, [random.randint(1, 5), random.randint(6, 10), random.randint(11, 15), random.randint(21, 25)], [random.randint(1, 2), random.randint(1, 2), 2, random.randint(1, 2)])
 
     print("Добавлены заказы")
+
+    #1 Заказы
+    parameters = [datetime.now() - timedelta(days=30), datetime.now() - timedelta(days=28), 1, 4, "Столик на четверых", "" ]
+    insert_reservation(apps, parameters)
+    parameters = [datetime.now() - timedelta(days=29), datetime.now() - timedelta(days=27), 2, 2, "Столик на двоих", "" ]
+    insert_reservation(apps, parameters)
+    parameters = [datetime.now() - timedelta(days=28), datetime.now() - timedelta(days=26), 3, 4, "Столик на четверых", "" ]
+    insert_reservation(apps, parameters)
+    parameters = [datetime.now() - timedelta(days=27), datetime.now() - timedelta(days=25), 4, 2, "Столик на двоих", "" ]
+    insert_reservation(apps, parameters)
+    parameters = [datetime.now() - timedelta(days=26), datetime.now() - timedelta(days=24), 5, 2, "VIP-кабина", "" ]
+    insert_reservation(apps, parameters)
+    
+    print("Добавлены бронирование")
 
     #1 Отзывы
     parameters = [datetime.now() - timedelta(days=30), 1, 5,  "Всё прошло на высшем уровне! Спасибо большое за то, что вы есть!"]
@@ -341,10 +392,11 @@ class Migration(migrations.Migration):
         migrations.RunPython(new_data),
         # Представления для SQLite и PostgreSQL
         migrations.RunSQL("""CREATE VIEW view_catalog AS
-            SELECT catalog.id, catalog.category_id, category.title AS category, catalog.title, catalog.details, catalog.price, catalog.photo
-            FROM catalog LEFT JOIN category ON catalog.category_id = category.id"""),
+            SELECT catalog.id, catalog.category_id, category.title AS category, catalog.title, catalog.details, catalog.price, catalog.availability, catalog.photo
+            FROM catalog LEFT JOIN category ON catalog.category_id = category.id
+            WHERE catalog.availability=True """),
         migrations.RunSQL("""CREATE VIEW view_detailing AS
-            SELECT detailing.id, detailing.bill_id, bill.dateb, bill.client_id, client.name, client.email, client.phone, bill.place, bill.total, bill.discount, bill.bonus, bill.amount, detailing.catalog_id, view_catalog.category, 
+            SELECT detailing.id, detailing.bill_id, bill.dateb, bill.client_id, client.name, client.email, client.phone, bill.place, bill.comments, bill.total, bill.discount, bill.bonus, bill.amount, detailing.catalog_id, view_catalog.category, 
             view_catalog.title, view_catalog.details,  view_catalog.photo, detailing.price, detailing.quantity, detailing.price*detailing.quantity AS detailing_total
             FROM detailing LEFT JOIN bill ON detailing.bill_id=bill.id
             LEFT JOIN client ON bill.client_id=client.id
@@ -352,13 +404,13 @@ class Migration(migrations.Migration):
         # Представление для SQLite
 #        migrations.RunSQL("""CREATE VIEW view_bill AS
 #SELECT id, dateb, client_id, (SELECT (name || ': ' || phone || ', ' || email) FROM view_detailing WHERE bill.id=view_detailing.bill_id GROUP BY (name || ': ' || phone || ', ' || email) ) AS client,
-#place, total, discount, bonus, amount, (SELECT GROUP_CONCAT(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';') 
+#place, comments, total, discount, bonus, amount, (SELECT GROUP_CONCAT(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';') 
 #FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
 #FROM bill"""),
         # Представление для PostgreSQL
         migrations.RunSQL("""CREATE VIEW view_bill AS
 SELECT id, dateb, client_id, (SELECT (name || ': ' || phone || ', ' || email) FROM view_detailing WHERE bill.id=view_detailing.bill_id GROUP BY (name || ': ' || phone || ', ' || email) ) AS client, 
-place, total, discount, bonus, amount, (SELECT STRING_AGG(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';') 
+place, comments, total, discount, bonus, amount, (SELECT STRING_AGG(category || ': ' || title || ' - ' || quantity || '*' || price || '=' || detailing_total, ';') 
 FROM view_detailing WHERE bill.id=view_detailing.bill_id) AS detailing
 FROM bill"""),
         # Тригер SQLite

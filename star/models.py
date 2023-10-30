@@ -44,6 +44,7 @@ class Catalog(models.Model):
     title = models.CharField(_('catalog_title'), max_length=255)
     details = models.TextField(_('catalog_details'), blank=True, null=True)
     price = models.DecimalField(_('price'), max_digits=9, decimal_places=2)
+    availability = models.BooleanField(_('availability'), default=True)
     photo = models.ImageField(_('photo'), upload_to='images/', blank=True, null=True)
     class Meta:
         # Параметры модели
@@ -66,6 +67,7 @@ class ViewCatalog(models.Model):
     title = models.CharField(_('catalog_title'), max_length=255)
     details = models.TextField(_('catalog_details'), blank=True, null=True)
     price = models.DecimalField(_('price'), max_digits=9, decimal_places=2)
+    availability = models.BooleanField(_('availability'), default=True)
     photo = models.ImageField(_('photo'), upload_to='images/', blank=True, null=True)
     class Meta:
         # Параметры модели
@@ -105,11 +107,13 @@ class Client(models.Model):
 # Счет (заказ)
 class Bill(models.Model):
     # Дата заказа
-    dateb = models.DateTimeField(_('dateb'), auto_now_add=True)
+    dateb = models.DateTimeField(_('bill_date'), auto_now_add=True)
     # Клиент
     client = models.ForeignKey(Client, related_name='bill_client', on_delete=models.CASCADE)
     # Столик
     place = models.CharField(_('place'), max_length=32)
+    # Комментарии к заказу
+    comments = models.TextField(_('bill_comments'), blank=True, null=True)    
     # Сумма заказа
     total = models.DecimalField(_('total'), max_digits=9, decimal_places=2, blank=True, null=True)      
     # Скидка, %
@@ -134,10 +138,11 @@ class Bill(models.Model):
 
 # Представление базы данных заказы
 class ViewBill(models.Model):
-    dateb = models.DateTimeField(_('dateb'))
+    dateb = models.DateTimeField(_('bill_date'))
     client_id = models.IntegerField(_('client_id'))
     client = models.CharField(_('client'), max_length=256, blank=True, null=True)
     place = models.CharField(_('place'), max_length=32)
+    comments = models.TextField(_('bill_comments'), blank=True, null=True)  
     total = models.DecimalField(_('total'), max_digits=9, decimal_places=2, blank=True, null=True)      
     discount = models.IntegerField(_('discount'), default=0)
     bonus = models.DecimalField(_('bonus'), max_digits=9, decimal_places=2, blank=True, null=True)
@@ -190,6 +195,7 @@ class ViewDetailing(models.Model):
     email = models.CharField(_('client_email'), max_length=128, blank=True, null=True)
     phone = models.CharField(_('client_phone'), max_length=32, blank=True, null=True)
     place = models.CharField(_('place'), max_length=32)
+    comments = models.TextField(_('bill_comments'), blank=True, null=True)  
     total = models.DecimalField(_('total'), max_digits=9, decimal_places=2, blank=True, null=True)      
     discount = models.IntegerField(_('discount'), default=0)
     bonus = models.DecimalField(_('bonus'), max_digits=9, decimal_places=2, blank=True, null=True)
@@ -215,6 +221,57 @@ class ViewDetailing(models.Model):
         # Таблицу не надо не добавлять не удалять
         managed = False
         
+# Бронирование столиков
+class Reservation(models.Model):
+    # Дата заявки на бронировани
+    datea = models.DateTimeField(_('reservation_application'), auto_now_add=True)
+    # Дата и время бронирования
+    dater = models.DateTimeField(_('reservation_date'))
+    # Клиент
+    client = models.ForeignKey(Client, related_name='reservation_client', on_delete=models.CASCADE)
+    # Число людей
+    quantity = models.IntegerField(_('quantity_people'), default=0)
+    # Пожелани по бронированию от клиента
+    details = models.TextField(_('reservation_details'))    
+    # Комментарии к бронированию от менеджера
+    comments = models.TextField(_('reservation_comments'), blank=True, null=True)    
+    class Meta:
+        # Параметры модели
+        # Переопределение имени таблицы
+        db_table = 'reservation'
+        # indexes - список индексов, которые необходимо определить в модели
+        indexes = [
+            models.Index(fields=['dater']),
+        ]
+        # Сортировка по умолчанию
+        ordering = ['dater']
+    def __str__(self):
+        # Вывод в тег SELECT 
+        return "{}: {}".format(self.dater, self.client)
+
+# Настройки
+class Configuration(models.Model):
+    # Дата настройки
+    datec = models.DateTimeField(_('configuration_date'), auto_now_add=True)
+    # Скидка, %
+    discount = models.IntegerField(_('configuration_discount'), default=0)
+    # Оплата бонусами
+    #bonus = models.DecimalField(_('configuration_bonus'), max_digits=9, decimal_places=2)
+    bonus = models.IntegerField(_('configuration_bonus'), default=0)
+    class Meta:
+        # Параметры модели
+        # Переопределение имени таблицы
+        db_table = 'configuration'
+        # indexes - список индексов, которые необходимо определить в модели
+        indexes = [
+            models.Index(fields=['datec']),
+        ]
+        # Сортировка по умолчанию
+        ordering = ['-datec']
+    def __str__(self):
+        # Вывод в тег SELECT 
+        return "{}\t{}\t{}".format(self.dates, self.discount, self.bonus)
+
 # Корзина 
 class Basket(models.Model):
     basketday = models.DateTimeField(_('basketday'), auto_now_add=True)
@@ -236,6 +293,28 @@ class Basket(models.Model):
     # Сумма по товару
     def total(self):
         return self.price * self.quantity
+
+# Бонусы клиенты
+class Bonus(models.Model):
+    # Дата настройки
+    dateb = models.DateTimeField(_('bonus_date'), auto_now_add=True)
+    # Клиент
+    client = models.ForeignKey(Client, related_name='bonus_client', on_delete=models.CASCADE)
+    # Оплата бонусами
+    accrued = models.DecimalField(_('accrued'), max_digits=9, decimal_places=2)
+    class Meta:
+        # Параметры модели
+        # Переопределение имени таблицы
+        db_table = 'bonus'
+        # indexes - список индексов, которые необходимо определить в модели
+        indexes = [
+            models.Index(fields=['dateb']),
+        ]
+        # Сортировка по умолчанию
+        ordering = ['-dateb']
+    def __str__(self):
+        # Вывод в тег SELECT 
+        return "{}\t{}\t{}".format(self.dates, self.discount, self.bonus)
 
 # Отзывы клиента 
 class Review(models.Model):

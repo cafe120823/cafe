@@ -1,6 +1,6 @@
 from django import forms
-from django.forms import ModelForm, TextInput, Textarea, DateInput, NumberInput, DateTimeInput
-from .models import Category, Catalog, Bill, Detailing, News
+from django.forms import CheckboxInput, ModelForm, TextInput, Textarea, DateInput, NumberInput, DateTimeInput
+from .models import Category, Catalog, Bill, Detailing, Reservation, Configuration, News
 #from django.utils.translation import ugettext as _
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
@@ -38,12 +38,13 @@ class CategoryForm(forms.ModelForm):
 class CatalogForm(forms.ModelForm):
     class Meta:
         model = Catalog
-        fields = ('category', 'title', 'details', 'price', 'photo')
+        fields = ('category', 'title', 'details', 'price', 'availability', 'photo')
         widgets = {
             'category': forms.Select(attrs={'class': 'chosen'}),
             'title': TextInput(attrs={"size":"100"}),
             'details': Textarea(attrs={'cols': 100, 'rows': 5}),            
             'price': NumberInput(attrs={"size":"10", "min": "1", "step": "1"}),
+            'availability': CheckboxInput(attrs={"size":"100"}),            
         }
         labels = {
             'category': _('category'),
@@ -104,6 +105,41 @@ class DetailingForm(forms.ModelForm):
         # Проверка номер больше нуля
         if data <= 0:
             raise forms.ValidationError(_('Quantity must be greater than zero'))
+        # Метод-валидатор обязательно должен вернуть очищенные данные, даже если не изменил их
+        return data
+
+# Бронирование
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = ['comments',]
+        widgets = {
+            'comments': Textarea(attrs={'cols': 100, 'rows': 5}),               
+        }
+    ## Метод-валидатор для поля title
+    #def clean_title(self):
+    #    data = self.cleaned_data['title']
+    #    # Ошибка если начинается не с большой буквы
+    #    if data.istitle() == False:
+    #        raise forms.ValidationError(_('Value must start with a capital letter'))
+    #    # Метод-валидатор обязательно должен вернуть очищенные данные, даже если не изменил их
+    #    return data
+
+# Настройки
+class ConfigurationForm(forms.ModelForm):
+    class Meta:
+        model = Configuration
+        fields = ('discount', 'bonus',)
+        widgets = {
+            'discount': NumberInput(attrs={"size":"10", "min": "0", "max": "99", "step": "1"}),     
+            'bonus': NumberInput(attrs={"size":"10", "min": "0", "max": "99", "step": "1"}),     
+        }
+    # Метод-валидатор для поля title
+    def clean_title(self):
+        data = self.cleaned_data['title']
+        # Ошибка если начинается не с большой буквы
+        if data.istitle() == False:
+            raise forms.ValidationError(_('Value must start with a capital letter'))
         # Метод-валидатор обязательно должен вернуть очищенные данные, даже если не изменил их
         return data
 

@@ -30,9 +30,11 @@ router.register(r'category', views.categoryViewSet)
 router.register(r'catalog', views.catalogViewSet)
 router.register(r'viewcatalog', views.viewCatalogViewSet)
 router.register(r'bill', views.billViewSet)
+router.register(r'reservation', views.reservationViewSet)
 router.register(r'viewbill', views.viewBillViewSet)
 router.register(r'detailing', views.detailingViewSet)
 router.register(r'client', views.clientViewSet)
+router.register(r'bonus', views.bonusViewSet)
 router.register(r'review', views.reviewViewSet)
 router.register(r'viewdetailing', views.viewDetailingViewSet)
 router.register(r'news', views.newsViewSet)
@@ -78,6 +80,19 @@ urlpatterns = [
     path('detailing/read/<int:id>/<int:bill_id>/', views.detailing_read, name='detailing_read'),
 
     path('basket/delete/<int:id>/', views.basket_delete, name='basket_delete'),
+
+    path('reservation/index/', views.reservation_index, name='reservation_index'),
+    path('reservation/edit/<int:id>/', views.reservation_edit, name='reservation_edit'),
+    path('reservation/delete/<int:id>/', views.reservation_delete, name='reservation_delete'),
+    path('reservation/read/<int:id>/', views.reservation_read, name='reservation_read'),
+
+    path('configuration/index/', views.configuration_index, name='configuration_index'),
+    path('configuration/create/', views.configuration_create, name='configuration_create'),
+    path('configuration/edit/<int:id>/', views.configuration_edit, name='configuration_edit'),
+    path('configuration/delete/<int:id>/', views.configuration_delete, name='configuration_delete'),
+    path('configuration/read/<int:id>/', views.configuration_read, name='configuration_read'),
+
+    path('bonus/index/', views.bonus_index, name='bonus_index'),
 
     path('review/index/', views.review_index, name='review_index'),
     path('review/list/', views.review_list, name='review_list'),

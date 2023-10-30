@@ -63,7 +63,7 @@
 					<th><p>{% trans "quantity" %}</p></th>
 					<th><p>{% trans "total" %}</p></th>
 					<th class="hide_for_print_element"><p>{% trans "photo" %}</p></th>
-					<th class="hide_for_print_element"><p><a href="{% url 'detailing_create' bill_id %}">{% if bill.amount == 0 %}{% trans "Create" %} {% endif %}</a></p></th>					
+					<th class="hide_for_print_element"><p><a href="{% url 'detailing_create' bill_id %}">{% if bill.amount == 0 %}{% trans "Add" %} {% endif %}</a></p></th>					
 				</tr>
 			</thead>
 			<tbody>
@@ -104,7 +104,7 @@
 		</table>
 	</div>	
 	{% else %}
-	<a href="{% url 'detailing_create' bill_id %}">{% trans "Create" %}</a>
+	<a href="{% url 'detailing_create' bill_id %}">{% trans "Add" %}</a>
 	{% endif %}
 </div>
 <script>

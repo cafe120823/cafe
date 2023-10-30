@@ -3,7 +3,7 @@
 # в нативные типы данных Python, которые затем могут быть легко срендерены в JSON, XML или другие типы контента. 
 # Сериализаторы также обеспечивают десериализацию, позволяя преобразовать спарсенные данные обратно в сложные типы после проверки входящих данных.
 from rest_framework import serializers
-from .models import Category, Catalog, ViewCatalog, Bill, ViewBill, Detailing, ViewDetailing, Client, Review, News
+from .models import Category, Catalog, ViewCatalog, Bill, ViewBill, Detailing, ViewDetailing, Reservation, Configuration, Client, Bonus, Review, News
 
 class CategorySerializer(serializers.ModelSerializer ):
     class Meta:
@@ -60,10 +60,31 @@ class ViewDetailingSerializer(serializers.ModelSerializer):
         #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
         fields = "__all__"
 
+class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        #fields = ("id", "datea", "dater", "client", "quantity", "details", "comments")
+        #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
+        fields = "__all__"
+        
+class ConfigurationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Configuration
+        #fields = ("id", "datec", "discount", "bonus")
+        #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
+        fields = "__all__"
+
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         #fields = ("id", "email", "password", "name", "phone", "birthday")
+        #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
+        fields = "__all__"
+
+class BonusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bonus
+        #fields = ("id", "dateb", "client_id", "accrued")
         #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
         fields = "__all__"
 

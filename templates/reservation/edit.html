@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Change" %}{% endblock title %}
+{% block header %}{% endblock header %}
+{% block content %}
+<h2>{% trans "reservation" %}</h2>
+<div class="row justify-content-center">
+	<div class="card" style="width:100%">
+		<div class="card-header">
+			<h4>{{ reservation.dater | date:"d.m.Y H:i" }}</h4>
+			<h4>{{ reservation.client }}</h4>
+		</div>
+		<div class="card-body">
+			<p><strong>{% trans "quantity_people" %}</strong>: {{ reservation.quantity_people }}</p>
+			<p><strong>{% trans "reservation_details" %}</strong>: {{ reservation.details }}</p>
+			<p><strong>{% trans "reservation_comments" %}</strong>: {{ reservation.comments }}</p>
+		</div>
+		<div class="card-footer">
+			<p><strong>{% trans "reservation_application" %}</strong>: {{ reservation.datea | date:"d.m.Y H:i" }}</p>
+		</div>
+	</div>
+	<br>
+	<div class="div-button-center">
+		
+	</div>
+</div>
+<form method="POST" enctype="multipart/form-data" novalidate>
+	{% csrf_token %}
+	<table>
+		{{ form.as_p }}
+	</table>
+	<div class="div-button-center">
+		<button type="submit" class="btn btn-outline-success" style="width:100px">{% trans "Save" %}</button>
+		<a class="btn btn-outline-info" style="width:100px" href="{% url 'reservation_index' %}">{% trans "Back" %}</a> 
+	</div>
+</form>
+<script type="text/javascript">
+	$(".chosen").chosen();
+</script>
+{% endblock content %}

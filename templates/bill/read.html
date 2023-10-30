@@ -1,15 +1,22 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Read" %}{% endblock title %}
+{% block title %}{% trans "View" %}{% endblock title %}
 {% block header %}{% endblock header %}
 {% block content %}
 <h2>{% trans "bill" %}</h2>
 <div class="row justify-content-center">
 	<div class="card" style="width:100%">
 		<div class="card-header">
+			<h4>{{ bill.dateb | date:"d.m.Y H:i" }}</h4>
+			<p><strong>{% trans "place" %}</strong>: {{ bill.place }}</p>
 		</div>
 		<div class="card-body">
-			<h4>{{ bill.title }}</h4>
+			<p><strong>{% trans "client" %}</strong>: {{ bill.client }}</p>
+			<p><strong>{% trans "comments" %}</strong>: {{ bill.comments }}</p>
+			<p><strong>{% trans "total" %}</strong>: {{ bill.total }}</p>
+			<p><strong>{% trans "discount" %}</strong>: {{ bill.discount }}</p>
+			<p><strong>{% trans "bonus" %}</strong>: {{ bill.bonus }}</p>
+			<p><strong>{% trans "amount" %}</strong>: {{ bill.amount }}</p>
 		</div>
 		<div class="card-footer">
 		</div>

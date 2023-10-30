@@ -18,14 +18,14 @@ from datetime import datetime, timedelta
 from django.core.mail import send_mail
 
 # Подключение моделей
-from .models import Category, Catalog, ViewCatalog, Basket, Bill, ViewBill, Detailing, ViewDetailing, Client, Review, News
+from .models import Category, Catalog, ViewCatalog, Basket, Bill, ViewBill, Detailing, ViewDetailing, Reservation, Client, Configuration, Bonus, Review, News
 # Подключение cериализаторов
-from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, ViewBillSerializer, DetailingSerializer, ViewDetailingSerializer, ClientSerializer, ReviewSerializer, NewsSerializer
+from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, ViewBillSerializer, DetailingSerializer, ViewDetailingSerializer, ReservationSerializer, ConfigurationSerializer, ClientSerializer, BonusSerializer, ReviewSerializer, NewsSerializer
 from rest_framework import viewsets
 from rest_framework import generics
 #from rest_framework import generics
 # Подключение форм
-from .forms import CategoryForm, CatalogForm, BillForm, DetailingForm, NewsForm, SignUpForm
+from .forms import CategoryForm, CatalogForm, BillForm, DetailingForm, ReservationForm, ConfigurationForm, NewsForm, SignUpForm
 
 from django.db.models import Sum
 
@@ -224,13 +224,13 @@ def catalog_list(request):
         category = Category.objects.all().order_by('title')
         # Подчситать количество товара в корзине доступны записи только текущего пользователя
         # Текущий пользователь
-        _user_id = request.user.id
+        #_user_id = request.user.id
         # Только доступный товар
         catalog = ViewCatalog.objects.all()    
         # Доступны записи только текущего пользователя
-        basket = Basket.objects.filter(user_id=_user_id).order_by('basketday')
+        #basket = Basket.objects.filter(user_id=_user_id).order_by('basketday')
         # Количество товара в корзине и общая стоимость товарв в корзине для пользователя _user_id
-        basket_count, basket_total = basket_count_total(_user_id)   
+        #basket_count, basket_total = basket_count_total(_user_id)   
 
         #print(basket_count)        
         if request.method == "POST":
@@ -262,31 +262,82 @@ def catalog_list(request):
                     else:
                         catalog = catalog.order_by('price')
                 return render(request, "catalog/list.html", {"catalog": catalog, "category": category, "selected_item_category": selected_item_category, "catalog_search": catalog_search , "sort": sort, "direction": direction })
-            elif 'resetBtn' in request.POST:          
-                return render(request, "catalog/list.html", {"catalog": catalog, "category": category,  })
-            else:
-                # Выделить id товара
-                catalog_id = request.POST.dict().get("catalog_id")
-                print("catalog_id ", catalog_id)
-                price = request.POST.dict().get("price")
-                #print("price ", price)
-                user = request.POST.dict().get("user")
-                #print("user ", user)
-                # Отправить товар в корзину
-                basket = Basket()
-                basket.catalog_id = catalog_id
-                basket.price = float(int(price.replace(",00","")))
-                #basket.price = price
-                basket.user_id = user
-                basket.save()
-                message = _('Item added to basket')
-                basket_count = Basket.objects.filter(user_id=_user_id).count()
-                return render(request, "catalog/list.html", {"catalog": catalog, "category": category, "mess": message, "basket_count": basket_count })         
+            else:          #'resetBtn' in request.POST
+                return render(request, "catalog/list.html", {"catalog": catalog, "category": category,  })              
         else:
-            return render(request, "catalog/list.html", {"catalog": catalog, "category": category, "basket_count": basket_count,})        
+            return render(request, "catalog/list.html", {"catalog": catalog, "category": category,})        
     except Exception as exception:
         print(exception)
-        return HttpResponse(exception)
+        return HttpResponse(exception)    
+    
+    #try:
+    #    # Категории и подкатегория товара (для поиска)
+    #    category = Category.objects.all().order_by('title')
+    #    # Подчситать количество товара в корзине доступны записи только текущего пользователя
+    #    # Текущий пользователь
+    #    _user_id = request.user.id
+    #    # Только доступный товар
+    #    catalog = ViewCatalog.objects.all()    
+    #    # Доступны записи только текущего пользователя
+    #    basket = Basket.objects.filter(user_id=_user_id).order_by('basketday')
+    #    # Количество товара в корзине и общая стоимость товарв в корзине для пользователя _user_id
+    #    basket_count, basket_total = basket_count_total(_user_id)   
+
+    #    #print(basket_count)        
+    #    if request.method == "POST":
+    #        # Определить какая кнопка нажата
+    #        if 'searchBtn' in request.POST:
+    #            # Поиск по категории товара
+    #            selected_item_category = request.POST.get('item_category')
+    #            #print(selected_item_category)
+    #            if selected_item_category != '-----':
+    #                catalog = catalog.filter(category=selected_item_category).all()
+    #            # Поиск по названию товара
+    #            catalog_search = request.POST.get("catalog_search")
+    #            #print(catalog_search)                
+    #            if catalog_search != '':
+    #                catalog = catalog.filter(title__contains = catalog_search).all()
+    #            # Сортировка
+    #            sort = request.POST.get('radio_sort')
+    #            #print(sort)
+    #            direction = request.POST.get('checkbox_sort_desc')
+    #            #print(direction)
+    #            if sort=='title':                    
+    #                if direction=='ok':
+    #                    catalog = catalog.order_by('-title')
+    #                else:
+    #                    catalog = catalog.order_by('title')
+    #            elif sort=='price':                    
+    #                if direction=='ok':
+    #                    catalog = catalog.order_by('-price')
+    #                else:
+    #                    catalog = catalog.order_by('price')
+    #            return render(request, "catalog/list.html", {"catalog": catalog, "category": category, "selected_item_category": selected_item_category, "catalog_search": catalog_search , "sort": sort, "direction": direction })
+    #        elif 'resetBtn' in request.POST:          
+    #            return render(request, "catalog/list.html", {"catalog": catalog, "category": category,  })
+    #        else:
+    #            # Выделить id товара
+    #            catalog_id = request.POST.dict().get("catalog_id")
+    #            print("catalog_id ", catalog_id)
+    #            price = request.POST.dict().get("price")
+    #            #print("price ", price)
+    #            user = request.POST.dict().get("user")
+    #            #print("user ", user)
+    #            # Отправить товар в корзину
+    #            basket = Basket()
+    #            basket.catalog_id = catalog_id
+    #            basket.price = float(int(price.replace(",00","")))
+    #            #basket.price = price
+    #            basket.user_id = user
+    #            basket.save()
+    #            message = _('Item added to basket')
+    #            basket_count = Basket.objects.filter(user_id=_user_id).count()
+    #            return render(request, "catalog/list.html", {"catalog": catalog, "category": category, "mess": message, "basket_count": basket_count })         
+    #    else:
+    #        return render(request, "catalog/list.html", {"catalog": catalog, "category": category, "basket_count": basket_count,})        
+    #except Exception as exception:
+    #    print(exception)
+    #    return HttpResponse(exception)
     
 # В функции create() получаем данные из запроса типа POST, сохраняем данные с помощью метода save()
 # и выполняем переадресацию на корень веб-сайта (то есть на функцию index).
@@ -300,6 +351,10 @@ def catalog_create(request):
             catalog.title = request.POST.get("title")
             catalog.details = request.POST.get("details")        
             catalog.price = request.POST.get("price")
+            if (request.POST.get("availability") == 'on'):
+                catalog.availability = True
+            else:
+                catalog.availability = False
             if 'photo' in request.FILES:                
                 catalog.photo = request.FILES['photo']
             catalogform = CatalogForm(request.POST)
@@ -326,6 +381,12 @@ def catalog_edit(request, id):
             catalog.title = request.POST.get("title")
             catalog.details = request.POST.get("details")        
             catalog.price = request.POST.get("price")
+            if (request.POST.get("availability") == 'on'):
+                catalog.availability = True
+            else:
+                catalog.availability = False
+            print(catalog.title)
+            print(catalog.availability)
             if 'photo' in request.FILES:
                 catalog.photo = request.FILES['photo']
             catalogform = CatalogForm(request.POST)
@@ -336,7 +397,7 @@ def catalog_edit(request, id):
                 return render(request, "catalog/edit.html", {"form": catalogform, })            
         else:
             # Загрузка начальных данных
-            catalogform = CatalogForm(initial={'category': catalog.category, 'title': catalog.title, 'details': catalog.details, 'price': catalog.price, 'photo': catalog.photo, })
+            catalogform = CatalogForm(initial={'category': catalog.category, 'title': catalog.title, 'details': catalog.details, 'price': catalog.price, 'availability': catalog.availability, 'photo': catalog.photo, })
             #print('->',catalog.photo )
             return render(request, "catalog/edit.html", {"form": catalogform, })
     except Catalog.DoesNotExist:
@@ -865,6 +926,195 @@ def basket_delete(request, id):
 # Список для изменения с кнопками создать, изменить, удалить
 @login_required
 @group_required("Managers")
+def reservation_index(request):
+    try:
+        reservation = Reservation.objects.all().order_by('-dater')
+        return render(request, "reservation/index.html", {"reservation": reservation,})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Функция edit выполняет редактирование объекта.
+@login_required
+@group_required("Managers")
+def reservation_edit(request, id):
+    try:
+        reservation = Reservation.objects.get(id=id)
+        if request.method == "POST":
+            reservation.comments = request.POST.get("comments")
+            reservationform = ReservationForm(request.POST)
+            if reservationform.is_valid():
+                reservation.save()
+                return HttpResponseRedirect(reverse('reservation_index'))
+            else:
+                return render(request, "reservation/edit.html", {"form": reservationform, "reservation": reservation})
+        else:
+            # Загрузка начальных данных
+            reservationform = ReservationForm(initial={'comments': reservation.comments, })
+            return render(request, "reservation/edit.html", {"form": reservationform, "reservation": reservation})
+    except Reservation.DoesNotExist:
+        return HttpResponseNotFound("<h2>Reservation not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Удаление данных из бд
+# Функция delete аналогичным функции edit образом находит объет и выполняет его удаление.
+@login_required
+@group_required("Managers")
+def reservation_delete(request, id):
+    try:
+        reservation = Reservation.objects.get(id=id)
+        reservation.delete()
+        return HttpResponseRedirect(reverse('reservation_index'))
+    except Reservation.DoesNotExist:
+        return HttpResponseNotFound("<h2>Reservation not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Просмотр страницы read.html для просмотра объекта.
+@login_required
+def reservation_read(request, id):
+    try:
+        reservation = Reservation.objects.get(id=id) 
+        return render(request, "reservation/read.html", {"reservation": reservation})
+    except Reservation.DoesNotExist:
+        return HttpResponseNotFound("<h2>Reservation not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class reservationViewSet(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+    # http://127.0.0.1:8000/api/reservation/
+
+#class reservationViewSet(generics.ListAPIView ):
+
+#    queryset = Reservation.objects.all()
+#    serializer_class = ReservationSerializer
+#    #http://127.0.0.1:8000/api/reservation/
+
+
+#class reservationDetail(generics.RetrieveUpdateDestroyAPIView):
+#    queryset = Reservation.objects.all()
+#    serializer_class = ReservationSerializer
+
+###################################################################################################
+
+# Список для изменения с кнопками создать, изменить, удалить
+@login_required
+@group_required("Managers")
+def configuration_index(request):
+    try:
+        configuration = Configuration.objects.all().order_by('-datec')
+        return render(request, "configuration/index.html", {"configuration": configuration,})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# В функции create() получаем данные из запроса типа POST, сохраняем данные с помощью метода save()
+# и выполняем переадресацию на корень веб-сайта (то есть на функцию index).
+@login_required
+@group_required("Managers")
+def configuration_create(request):
+    try:
+        if request.method == "POST":
+            configuration = Configuration()
+            configuration.discount = request.POST.get("discount")
+            configuration.bonus = request.POST.get("bonus")
+            configurationform = ConfigurationForm(request.POST)
+            if configurationform.is_valid():
+                configuration.save()
+                return HttpResponseRedirect(reverse('configuration_index'))
+            else:
+                return render(request, "configuration/create.html", {"form": configurationform})
+        else:        
+            configurationform = ConfigurationForm()
+            return render(request, "configuration/create.html", {"form": configurationform})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Функция edit выполняет редактирование объекта.
+@login_required
+@group_required("Managers")
+def configuration_edit(request, id):
+    try:
+        configuration = Configuration.objects.get(id=id)
+        if request.method == "POST":
+            configuration.discount = request.POST.get("discount")
+            configuration.bonus = request.POST.get("bonus")
+            configurationform = ConfigurationForm(request.POST)
+            if configurationform.is_valid():
+                configuration.save()
+                return HttpResponseRedirect(reverse('configuration_index'))
+            else:
+                return render(request, "configuration/edit.html", {"form": configurationform})
+        else:
+            # Загрузка начальных данных
+            configurationform = ConfigurationForm(initial={'discount': configuration.discount, 'bonus': configuration.bonus, })
+            return render(request, "configuration/edit.html", {"form": configurationform})
+    except Configuration.DoesNotExist:
+        return HttpResponseNotFound("<h2>Configuration not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Удаление данных из бд
+# Функция delete аналогичным функции edit образом находит объет и выполняет его удаление.
+@login_required
+@group_required("Managers")
+def configuration_delete(request, id):
+    try:
+        configuration = Configuration.objects.get(id=id)
+        configuration.delete()
+        return HttpResponseRedirect(reverse('configuration_index'))
+    except Configuration.DoesNotExist:
+        return HttpResponseNotFound("<h2>Configuration not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Просмотр страницы read.html для просмотра объекта.
+@login_required
+def configuration_read(request, id):
+    try:
+        configuration = Configuration.objects.get(id=id) 
+        return render(request, "configuration/read.html", {"configuration": configuration})
+    except Configuration.DoesNotExist:
+        return HttpResponseNotFound("<h2>Configuration not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class configurationViewSet(viewsets.ModelViewSet):
+    queryset = Configuration.objects.all()
+    serializer_class = ConfigurationSerializer
+    # http://127.0.0.1:8000/api/configuration/
+
+#class configurationViewSet(generics.ListAPIView ):
+
+#    queryset = Configuration.objects.all()
+#    serializer_class = ConfigurationSerializer
+#    #http://127.0.0.1:8000/api/configuration/
+
+
+#class configurationDetail(generics.RetrieveUpdateDestroyAPIView):
+#    queryset = Configuration.objects.all()
+#    serializer_class = ConfigurationSerializer
+###################################################################################################
+
+# Список для изменения с кнопками создать, изменить, удалить
+@login_required
+@group_required("Managers")
 def client_index(request):
     try:
         client = Client.objects.all().order_by('name')
@@ -904,6 +1154,28 @@ class clientViewSet(viewsets.ModelViewSet):
 #class clientDetail(generics.RetrieveUpdateDestroyAPIView):
 #    queryset = Client.objects.all()
 #    serializer_class = ClientSerializer
+
+
+###################################################################################################
+
+# Список для изменения с кнопками создать, изменить, удалить
+@login_required
+@group_required("Managers")
+def bonus_index(request):
+    try:
+        bonus = Bonus.objects.all().order_by('-dateb')
+        return render(request, "bonus/index.html", {"bonus": bonus,})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class bonusViewSet(viewsets.ModelViewSet):
+    queryset = Bonus.objects.all()
+    serializer_class = BonusSerializer
+    # http://127.0.0.1:8000/api/bonus/
 
 ###################################################################################################
 

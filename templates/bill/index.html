@@ -17,7 +17,7 @@
 				<th><p>{% trans "bonus" %}</p></th>
 				<th><p>{% trans "amount" %}</p></th>
 				<th><p></p></th>
-				<!-- <th><p><a href="{% url 'bill_create'%}">{% trans "Create" %}</a></p></th> -->
+				<!-- <th><p><a href="{% url 'bill_create'%}">{% trans "Add" %}</a></p></th> -->
 			</tr>
 		</thead>
 		<tbody>
@@ -27,7 +27,7 @@
 					<p>{{ n.dateb | date:"d.m.Y H:i" }}</p>
 				</td>
 				<td>
-					<p>{{ n.place }}<br>{{ n.client }}</p>
+					<p>{{ n.place }}<br>{{ n.client }}<br>{{ n.comments }}</p>
 				</td>
 				<td>
 					<p>{{ n.detailing | linebreaks}}</p>
@@ -54,7 +54,7 @@
 				<td>
 					<p>
 					<a href="{% url 'bill_edit' n.id %}">{% trans "Change" %}</a> |
-					<a href="{% url 'bill_read' n.id %}">{% trans "Read" %}</a> |
+					<a href="{% url 'bill_read' n.id %}">{% trans "View" %}</a> |
 					<a onclick="return confirm('Удалить запись?')" href="{% url 'bill_delete' n.id %}">{% trans "Delete" %}</a>
 					</p>
 				</td>
@@ -64,6 +64,6 @@
 	</table>
 </div>
 {% else %}
-<!-- <a href="{% url 'bill_create'%}">{% trans "Create" %}</a> -->
+<!-- <a href="{% url 'bill_create'%}">{% trans "Add" %}</a> -->
 {% endif %}
 {% endblock content %}
