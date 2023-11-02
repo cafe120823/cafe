@@ -186,7 +186,7 @@ def category_read(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class categoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('title')
     serializer_class = CategorySerializer
     # http://127.0.0.1:8000/api/category/
 
@@ -450,12 +450,12 @@ def catalog_details(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class catalogViewSet(viewsets.ModelViewSet):
-    queryset = Catalog.objects.all()
+    queryset = Catalog.objects.all().order_by('title')
     serializer_class = CatalogSerializer
     # http://127.0.0.1:8000/api/catalog/
 
 class viewCatalogViewSet(viewsets.ModelViewSet):
-    queryset = ViewCatalog.objects.all()
+    queryset = ViewCatalog.objects.all().order_by('title')
     serializer_class = ViewCatalogSerializer
     # http://127.0.0.1:8000/api/viewcatalog/
 
@@ -549,12 +549,12 @@ def bill_read(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class billViewSet(viewsets.ModelViewSet):
-    queryset = Bill.objects.all()
+    queryset = Bill.objects.all().order_by('-dateb')
     serializer_class = BillSerializer
     # http://127.0.0.1:8000/api/bill/
 
 class viewBillViewSet(viewsets.ModelViewSet):
-    queryset = ViewBill.objects.all()
+    queryset = ViewBill.objects.all().order_by('-dateb')
     serializer_class = ViewBillSerializer
     # http://127.0.0.1:8000/api/viewbill/
 
@@ -989,7 +989,7 @@ def reservation_read(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class reservationViewSet(viewsets.ModelViewSet):
-    queryset = Reservation.objects.all()
+    queryset = Reservation.objects.all().order_by('-dater')
     serializer_class = ReservationSerializer
     # http://127.0.0.1:8000/api/reservation/
 
@@ -1096,7 +1096,7 @@ def configuration_read(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class configurationViewSet(viewsets.ModelViewSet):
-    queryset = Configuration.objects.all()
+    queryset = Configuration.objects.all().order_by('-datec')
     serializer_class = ConfigurationSerializer
     # http://127.0.0.1:8000/api/configuration/
 
@@ -1140,7 +1140,7 @@ def client_read(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class clientViewSet(viewsets.ModelViewSet):
-    queryset = Client.objects.all()
+    queryset = Client.objects.all().order_by('name')
     serializer_class = ClientSerializer
     # http://127.0.0.1:8000/api/client/
 
@@ -1173,7 +1173,7 @@ def bonus_index(request):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class bonusViewSet(viewsets.ModelViewSet):
-    queryset = Bonus.objects.all()
+    queryset = Bonus.objects.all().order_by('-dateb')
     serializer_class = BonusSerializer
     # http://127.0.0.1:8000/api/bonus/
 
@@ -1219,7 +1219,7 @@ def review_delete(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class reviewViewSet(viewsets.ModelViewSet):
-    queryset = Review.objects.all()
+    queryset = Review.objects.all().order_by('-dater')
     serializer_class = ReviewSerializer
     # http://127.0.0.1:8000/api/review/
 
@@ -1338,7 +1338,7 @@ def news_read(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class newsViewSet(viewsets.ModelViewSet):
-    queryset = News.objects.all()
+    queryset = News.objects.all().order_by('-daten')
     serializer_class = NewsSerializer
     # http://127.0.0.1:8000/api/news/
 

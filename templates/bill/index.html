@@ -39,17 +39,17 @@
 					{% else %}
 						<p style="color:red;">
 					{% endif %}
-						{{ n.total | stringformat:"1.0f" }} 〒
+						{{ n.total | stringformat:"1.0f" }} ₽
 					</p>
 				</td>
 				<td>
 					<p>{% if n.discount > 0 %}{{ n.discount }} %{% endif %}</p>
 				</td>
 				<td>
-					<p>{% if n.bonus > 0 %}{{ n.bonus | stringformat:"1.0f"}} 〒{% endif %}</p>
+					<p>{% if n.bonus > 0 %}{{ n.bonus | stringformat:"1.0f"}} ₽{% endif %}</p>
 				</td>
 				<td>
-					<p>{% if n.amount > 0 %}{{ n.amount | stringformat:"1.0f" }} 〒{% endif %}</p>
+					<p>{% if n.amount > 0 %}{{ n.amount | stringformat:"1.0f" }} ₽{% endif %}</p>
 				</td>
 				<td>
 					<p>

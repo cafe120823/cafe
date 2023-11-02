@@ -38,6 +38,7 @@ router.register(r'bonus', views.bonusViewSet)
 router.register(r'review', views.reviewViewSet)
 router.register(r'viewdetailing', views.viewDetailingViewSet)
 router.register(r'news', views.newsViewSet)
+router.register(r'configuration', views.configurationViewSet)
 
 urlpatterns = [
     path('', views.index),

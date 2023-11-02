@@ -123,7 +123,7 @@
 									<a class="btn btn-outline-info" href="{% url 'catalog_details' c.id %}">{% trans "Catalog details" %}</a>
 								</div>
 								<div class="col-md-2">
-									<h4 class="card-title"><strong>{{ c.price | stringformat:"1.0f" }}</strong> 〒</h4>
+									<h4 class="card-title"><strong>{{ c.price | stringformat:"1.0f" }}</strong> ₽</h4>
 									{% if c.available != None %}
 										<h6 class="card-title"><strong>{% trans "available" %}</strong> {{ c.available }}</h6>
 									{% endif %}

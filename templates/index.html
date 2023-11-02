@@ -173,7 +173,7 @@
 					<img style="height:200px; max-width:200px;" src="{{ c.photo.url}}" alt="{{ c.photo.url }}">
 				{% endif %}
 				<h4><a href="{% url 'catalog_details' c.id %}">{{ c.title }}</a></h4>
-				<h5>{{ c.price }}  〒</h5>					
+				<h5>{{ c.price }}  ₽</h5>					
 				{% if c.avg_rating != None %}
 				<p><div class="Stars" style='--rating: {{ c.avg_rating| stringformat:".1f" }};'></div></p>							
 				<!-- <h6>{% trans "Avg Rating" %}: {{ c.avg_rating | floatformat:1 }}</h6>								 -->

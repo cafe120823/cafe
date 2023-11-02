@@ -10,11 +10,11 @@
 	<h4>№ {{ bill.id  }}, {{ bill.dateb | date:"d.m.Y H:i"}}</h4>
 	<h4>{% trans "place" %}: {{ bill.place  }}</h4>
 	<hr>
-	<h5>{% trans "total" %}: {{ bill.total | stringformat:"1.0f" }} 〒</h5>
+	<h5>{% trans "total" %}: {{ bill.total | stringformat:"1.0f" }} ₽</h5>
 	{% if bill.amount > 0 %}
 		<h5>{% trans "discount" %}: {{ bill.discount }} %</h5>
-		<h5>{% trans "bonus" %}: {{ bill.bonus | stringformat:"1.0f" }} 〒</h5>
-		<h5>{% trans "amount" %}: {{ bill.amount | stringformat:"1.0f" }} 〒</h5>
+		<h5>{% trans "bonus" %}: {{ bill.bonus | stringformat:"1.0f" }} ₽</h5>
+		<h5>{% trans "amount" %}: {{ bill.amount | stringformat:"1.0f" }} ₽</h5>
 	{% else %}
 		<h5>{% trans "not yet paid" %}</h5>
 		<form method="post" enctype="multipart/form-data" class="hide_for_print_element">
@@ -39,7 +39,7 @@
 						<input type="number" name="bonus" size="10" min="0" max="1000" step="50" id="id_bonus" value="{{ bonus }}">
 					</td>
 					<td>
-						<label>〒</label>
+						<label>₽</label>
 					</td>
 				</tr>
 			</table>
@@ -76,13 +76,13 @@
 						<p>{{ p.catalog.title }}</p>
 					</td>
 					<td>
-						<p>{{ p.price | stringformat:"1.0f" }} 〒</p>
+						<p>{{ p.price | stringformat:"1.0f" }} ₽</p>
 					</td>
 					<td>
 						<p>{{ p.quantity }}</p>
 					</td>
 					<td>
-						<p>{{ p.total  | floatformat:0 }} 〒</p>
+						<p>{{ p.total  | floatformat:0 }} ₽</p>
 					</td> 
 					<td class="hide_for_print_element">
 						{% if p.catalog.photo.url != None %}					

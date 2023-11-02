@@ -23,7 +23,7 @@
 						<h5 class="card-title">{{ b.catalog.title }}</h5>
 					</div>
 					<div class="col-md-2">
-						<h6 class="card-title"><strong>{{ b.quantity }}ˣ{{ b.price | stringformat:"1.0f" }}</strong> 〒</h6>
+						<h6 class="card-title"><strong>{{ b.quantity }}ˣ{{ b.price | stringformat:"1.0f" }}</strong> ₽</h6>
 						<form method="post" name="plusminusForm">
 							{% csrf_token %}
 							<input hidden type="text" name="basket_id" size="0" value="{{ b.id }}">
@@ -31,7 +31,7 @@
 							<button type="submit" name="btn_plus" class="btn btn-outline-success">+</button>
 							<button type="submit" name="btn_minus" class="btn btn-outline-success">-</button>
 						</form>
-						<h4 class="card-title"><strong>{{ b.total | stringformat:"1.0f" }}</strong> 〒</h4>
+						<h4 class="card-title"><strong>{{ b.total | stringformat:"1.0f" }}</strong> ₽</h4>
 						<a onclick="return confirm('Удалить запись?')" class="btn btn-outline-danger" href="{% url 'basket_delete' b.id %}">{% trans "Delete" %}</a>
 					</div>
 				</div>
@@ -52,7 +52,7 @@
 	<div class="row justify-content-center" id="row_go_payment">
 		<div class="card" style="width: 100%">
 			<div class="card-header text-center" >
-				<h3 class="card-title"><strong>{% trans "Basket total" %} - {{ basket_total | stringformat:"1.0f"}}</strong> 〒</h3>
+				<h3 class="card-title"><strong>{% trans "Basket total" %} - {{ basket_total | stringformat:"1.0f"}}</strong> ₽</h3>
 			</div>
 			<div class="card-body">
 				<div class="row justify-content-center">
