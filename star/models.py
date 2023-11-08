@@ -300,7 +300,7 @@ class Bonus(models.Model):
     dateb = models.DateTimeField(_('bonus_date'), auto_now_add=True)
     # Клиент
     client = models.ForeignKey(Client, related_name='bonus_client', on_delete=models.CASCADE)
-    # Оплата бонусами
+    # Начисленные бонусы 
     accrued = models.DecimalField(_('accrued'), max_digits=9, decimal_places=2)
     class Meta:
         # Параметры модели

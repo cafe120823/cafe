@@ -5,7 +5,7 @@
 {% block header %}{% endblock header %}
 {% block content %}
 <h2>{% trans "bonus" %}</h2>
-{% if review.count > 0 %}
+{% if bonus.count > 0 %}
 <div class="row">
 	<table id="myTable" class="table-manager" style="width:100%">
 		<thead>
@@ -16,11 +16,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for r in review %}
+			{% for r in bonus %}
 			<tr>
-				<td><p>{{ r.dateb | date:"d.m.Y"}}</p></td>
+				<td><p>{{ r.dateb | date:"d.m.Y H:i"}}</p></td>
 				<td><p>{{ r.client.name }}<br>{{ r.client.phone }}<br>{{ r.client.email }}</p></td>
-				<td><p>{{ r.accrued }}</p></td>
+				<td><p>{{ r.accrued | stringformat:"1.0f" }} ₽</p></td>
 			</tr>
 			{% endfor %}
 		</tbody>
