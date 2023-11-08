@@ -43,7 +43,12 @@
 					</p>
 				</td>
 				<td>
-					<p>{% if n.discount > 0 %}{{ n.discount }} %{% endif %}</p>
+					<p>
+						{% if n.discount > 0 %}
+							{{ n.discount }} % <br>
+							{{ n.discount_total | stringformat:"1.0f" }} ₽
+						{% endif %}
+					</p>
 				</td>
 				<td>
 					<p>{% if n.bonus > 0 %}{{ n.bonus | stringformat:"1.0f"}} ₽{% endif %}</p>

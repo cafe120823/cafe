@@ -132,6 +132,10 @@ class Bill(models.Model):
         ]
         # Сортировка по умолчанию
         ordering = ['dateb']
+    @property
+    def discount_total(self):
+        # Возврат суммы скидки
+        return (self.discount*self.total)/100
     def __str__(self):
         # Вывод в тег SELECT 
         return "{}, {}: {}".format(self.dateb, self.place, self.amount)
@@ -160,6 +164,10 @@ class ViewBill(models.Model):
         ordering = ['dateb']
         # Таблицу не надо не добавлять не удалять
         managed = False
+    @property
+    def discount_total(self):
+        # Возврат суммы скидки
+        return (self.discount*self.total)/100
 
 #  Детализация заказа
 class Detailing(models.Model):

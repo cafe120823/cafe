@@ -1169,6 +1169,21 @@ def bonus_index(request):
         print(exception)
         return HttpResponse(exception)
 
+# Удаление данных из бд
+# Функция delete аналогичным функции edit образом находит объет и выполняет его удаление.
+@login_required
+@group_required("Managers")
+def bonus_delete(request, id):
+    try:
+        bonus = Bonus.objects.get(id=id)
+        bonus.delete()
+        return HttpResponseRedirect(reverse('bonus_index', ))
+    except Bonus.DoesNotExist:
+        return HttpResponseNotFound("<h2>Bonus not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
 # ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 

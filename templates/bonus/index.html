@@ -12,7 +12,8 @@
 			<tr>
 				<th><p>{% trans "bonus_date" %}</p></th>
 				<th><p>{% trans "name" %}</th>				
-				<th><p>{% trans "accrued" %}</th>				
+				<th><p>{% trans "accrued" %}</th>	
+				<th><p></p></th>				
 			</tr>
 		</thead>
 		<tbody>
@@ -21,6 +22,12 @@
 				<td><p>{{ r.dateb | date:"d.m.Y H:i"}}</p></td>
 				<td><p>{{ r.client.name }}<br>{{ r.client.phone }}<br>{{ r.client.email }}</p></td>
 				<td><p>{{ r.accrued | stringformat:"1.0f" }} ₽</p></td>
+				<td>
+					<form method="post">
+						{% csrf_token %}
+						<a onclick="return confirm('Удалить запись?')" href="{% url 'bonus_delete' r.id %}">{% trans "Delete" %}</a>
+					</form>
+				</td>
 			</tr>
 			{% endfor %}
 		</tbody>

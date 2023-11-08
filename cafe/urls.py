@@ -94,6 +94,7 @@ urlpatterns = [
     path('configuration/read/<int:id>/', views.configuration_read, name='configuration_read'),
 
     path('bonus/index/', views.bonus_index, name='bonus_index'),
+    path('bonus/delete/<int:id>/', views.bonus_delete, name='bonus_delete'),
 
     path('review/index/', views.review_index, name='review_index'),
     path('review/list/', views.review_list, name='review_list'),
