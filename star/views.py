@@ -1096,7 +1096,7 @@ def configuration_read(request, id):
 # Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
 # Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
 class configurationViewSet(viewsets.ModelViewSet):
-    queryset = Configuration.objects.all().order_by('-datec')
+    queryset = Configuration.objects.all().order_by('-datec')[0:1]
     serializer_class = ConfigurationSerializer
     # http://127.0.0.1:8000/api/configuration/
 
