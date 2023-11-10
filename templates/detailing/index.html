@@ -93,7 +93,7 @@
 						<p>
 						{% if bill.amount == 0 %}
 						<a  href="{% url 'detailing_edit' p.id bill_id %}">{% trans "Change" %}</a> |
-						<a href="{% url 'detailing_read' p.id bill_id %}">{% trans "Read" %}</a> |
+						<a href="{% url 'detailing_read' p.id bill_id %}">{% trans "View" %}</a> |
 						<a onclick="return confirm('Удалить запись?')" href="{% url 'detailing_delete' p.id bill_id %}">{% trans "Delete" %}</a>
 						{% endif %}
 						</p>

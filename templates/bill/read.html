@@ -12,11 +12,12 @@
 		</div>
 		<div class="card-body">
 			<p><strong>{% trans "client" %}</strong>: {{ bill.client }}</p>
+			<p><strong>{% trans "detailing" %}</strong>: {{ bill.detailing | linebreaks }}</p>
 			<p><strong>{% trans "comments" %}</strong>: {{ bill.comments }}</p>
-			<p><strong>{% trans "total" %}</strong>: {{ bill.total }}</p>
+			<p><strong>{% trans "total" %}</strong>: {{ bill.total | stringformat:"1.0f" }} ₽</p>
 			<p><strong>{% trans "discount" %}</strong>: {{ bill.discount }}</p>
 			<p><strong>{% trans "bonus" %}</strong>: {{ bill.bonus }}</p>
-			<p><strong>{% trans "amount" %}</strong>: {{ bill.amount }}</p>
+			<p><strong>{% trans "amount" %}</strong>: {{ bill.amount | stringformat:"1.0f" }} ₽</p>
 		</div>
 		<div class="card-footer">
 		</div>

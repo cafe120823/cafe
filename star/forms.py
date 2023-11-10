@@ -26,13 +26,13 @@ class CategoryForm(forms.ModelForm):
             'title': _('category_title'),            
         }
     # Метод-валидатор для поля title
-    def clean_title(self):
-        data = self.cleaned_data['title']
-        # Ошибка если начинается не с большой буквы
-        if data.istitle() == False:
-            raise forms.ValidationError(_('Value must start with a capital letter'))
-        # Метод-валидатор обязательно должен вернуть очищенные данные, даже если не изменил их
-        return data
+    #def clean_title(self):
+    #    data = self.cleaned_data['title']
+    #    # Ошибка если начинается не с большой буквы
+    #    if data.istitle() == False:
+    #        raise forms.ValidationError(_('Value must start with a capital letter'))
+    #    # Метод-валидатор обязательно должен вернуть очищенные данные, даже если не изменил их
+    #    return data
 
 # Каталог (меню)
 class CatalogForm(forms.ModelForm):

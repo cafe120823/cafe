@@ -21,7 +21,11 @@
 			{% if r.rating != None %}
 			<tr>
 				<td><p>{{ r.dater | date:"d.m.Y"}}<br>{{ r.client.name }}<br>{{ r.client.phone }}<br>{{ r.client.email }}</p></td>
-				<td><p>{{ r.rating }}</p></td>
+				<td><p>
+					{% if r.rating != None %}
+						<div class="Stars" style='--rating: {{ r.rating | stringformat:".1f" }};'></div>
+					{% endif %}				
+				</p></td>
 				<td><p>{{ r.details | linebreaks }}</p></td>
 				<td>
 					<form method="post">

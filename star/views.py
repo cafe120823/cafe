@@ -537,7 +537,7 @@ def bill_delete(request, id):
 @login_required
 def bill_read(request, id):
     try:
-        bill = Bill.objects.get(id=id) 
+        bill = ViewBill.objects.get(id=id) 
         return render(request, "bill/read.html", {"bill": bill})
     except Bill.DoesNotExist:
         return HttpResponseNotFound("<h2>Bill not found</h2>")

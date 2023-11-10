@@ -58,7 +58,7 @@
 				</td>
 				<td>
 					<p>
-					<a href="{% url 'bill_edit' n.id %}">{% trans "Change" %}</a> |
+					<!-- <a href="{% url 'bill_edit' n.id %}">{% trans "Change" %}</a> | -->
 					<a href="{% url 'bill_read' n.id %}">{% trans "View" %}</a> |
 					<a onclick="return confirm('Удалить запись?')" href="{% url 'bill_delete' n.id %}">{% trans "Delete" %}</a>
 					</p>
