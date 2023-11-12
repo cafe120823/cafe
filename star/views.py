@@ -1129,7 +1129,9 @@ def client_index(request):
 def client_read(request, id):
     try:
         client = Client.objects.get(id=id) 
-        return render(request, "client/read.html", {"client": client})
+        bill = ViewBill.objects.all().filter(client_id=id).order_by('-dateb') 
+        review = Review.objects.all().filter(client_id=id).order_by('-dater')
+        return render(request, "client/read.html", {"client": client, "bill": bill, "review": review, })
     except Client.DoesNotExist:
         return HttpResponseNotFound("<h2>Client not found</h2>")
     except Exception as exception:

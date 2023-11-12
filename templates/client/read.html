@@ -13,10 +13,94 @@
 		<div class="card-body">
 			<p>{{ client.phone }}</p>
 			<p>{{ client.email }}</p>
-			<hr>
-			Заказы
-			<hr>
-			Отзывы
+			{% if bill.count > 0 %}
+				<hr>
+				<h5>{% trans "bills" %}</h5>
+				<div class="row">
+					<table id="myTable4" class="table-manager" style="width:100%">
+						<thead>
+							<tr>
+								<th><p>{% trans "dateb" %}</p></th>
+								<th><p>{% trans "place" %}<br>{% trans "client" %}</p></th>
+								<th><p>{% trans "detailing" %}</p></th>
+								<th><p>{% trans "total" %}</p></th>
+								<th><p>{% trans "discount" %}</p></th>
+								<th><p>{% trans "bonus" %}</p></th>
+								<th><p>{% trans "amount" %}</p></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for n in bill %}
+							<tr>
+								<td>
+									<p>{{ n.dateb | date:"d.m.Y H:i" }}</p>
+								</td>
+								<td>
+									<p>{{ n.place }}<br>{{ n.client }}<br>{{ n.comments }}</p>
+								</td>
+								<td>
+									<p>{{ n.detailing | linebreaks}}</p>
+									<!-- <p><a href="{% url 'detailing_index' n.id%}">{% trans "detailing" %}</a></p> -->
+								</td>
+								<td>
+									{% if n.amount > 0 %}
+										<p>
+									{% else %}
+										<p style="color:red;">
+									{% endif %}
+										{{ n.total | stringformat:"1.0f" }} ₽
+									</p>
+								</td>
+								<td>
+									<p>
+										{% if n.discount > 0 %}
+											{{ n.discount }} % <br>
+											{{ n.discount_total | stringformat:"1.0f" }} ₽
+										{% endif %}
+									</p>
+								</td>
+								<td>
+									<p>{% if n.bonus > 0 %}{{ n.bonus | stringformat:"1.0f"}} ₽{% endif %}</p>
+								</td>
+								<td>
+									<p>{% if n.amount > 0 %}{{ n.amount | stringformat:"1.0f" }} ₽{% endif %}</p>
+								</td>								
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% endif %}
+			{% if review.count > 0 %}
+				<hr>
+				<h5>{% trans "reviews" %}</h5>
+				<div class="row">
+					<table id="myTable5" class="table-manager" style="width:100%">
+						<thead>
+							<tr>
+								<th><p>{% trans "dater" %}</p></th>
+								<th><p>{% trans "rating" %}</p></th>
+								<th><p>{% trans "review_details" %}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for r in review %}
+							{% if r.rating != None %}
+							<tr>
+								<td><p>{{ r.dater | date:"d.m.Y"}}<br>{{ r.client.email }}</p></td>
+								<td><p>				
+									{% if r.rating != None %}
+										<div class="Stars" style='--rating: {{ r.rating | stringformat:".1f" }};'></div>
+									{% endif %}									
+								</p></td>
+								<td><p>{{ r.details | linebreaks }}</p></td>
+							</tr>
+							{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% endif %}			
 		</div>
 		<div class="card-footer">
 		</div>
