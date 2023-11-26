@@ -18,14 +18,14 @@ from datetime import datetime, timedelta
 from django.core.mail import send_mail
 
 # Подключение моделей
-from .models import Category, Catalog, ViewCatalog, Basket, Bill, ViewBill, Detailing, ViewDetailing, Reservation, Client, Configuration, Bonus, Review, News
+from .models import Category, Catalog, ViewCatalog, Basket, Bill, ViewBill, Detailing, ViewDetailing, Reservation, Client, Notification, Configuration, Bonus, Review, News
 # Подключение cериализаторов
-from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, ViewBillSerializer, DetailingSerializer, ViewDetailingSerializer, ReservationSerializer, ConfigurationSerializer, ClientSerializer, BonusSerializer, ReviewSerializer, NewsSerializer
+from .serializers import CategorySerializer, CatalogSerializer, ViewCatalogSerializer, BillSerializer, ViewBillSerializer, DetailingSerializer, ViewDetailingSerializer, ReservationSerializer, NotificationSerializer, ConfigurationSerializer, ClientSerializer, BonusSerializer, ReviewSerializer, NewsSerializer
 from rest_framework import viewsets
 from rest_framework import generics
 #from rest_framework import generics
 # Подключение форм
-from .forms import CategoryForm, CatalogForm, BillForm, DetailingForm, ReservationForm, ConfigurationForm, NewsForm, SignUpForm
+from .forms import CategoryForm, CatalogForm, BillForm, DetailingForm, ReservationForm, NotificationForm, ConfigurationForm, NewsForm, SignUpForm
 
 from django.db.models import Sum
 
@@ -1003,6 +1003,106 @@ class reservationViewSet(viewsets.ModelViewSet):
 #class reservationDetail(generics.RetrieveUpdateDestroyAPIView):
 #    queryset = Reservation.objects.all()
 #    serializer_class = ReservationSerializer
+###################################################################################################
+
+# Список для изменения с кнопками создать, изменить, удалить
+@login_required
+@group_required("Managers")
+def notification_index(request):
+    try:
+        #notification = Notification.objects.all().order_by('surname', 'name', 'patronymic')
+        #return render(request, "notification/index.html", {"notification": notification})
+        notification = Notification.objects.all().order_by('-daten')
+        return render(request, "notification/index.html", {"notification": notification})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# В функции create() получаем данные из запроса типа POST, сохраняем данные с помощью метода save()
+# и выполняем переадресацию на корень веб-сайта (то есть на функцию index).
+@login_required
+@group_required("Managers")
+def notification_create(request):
+    try:
+        if request.method == "POST":
+            notification = Notification()        
+            notification.daten = request.POST.get("daten")
+            notification.client = Client.objects.filter(id=request.POST.get("client")).first()
+            notification.details = request.POST.get("details")            
+            notificationform = NotificationForm(request.POST)
+            if notificationform.is_valid():
+                notification.save()
+                return HttpResponseRedirect(reverse('notification_index'))
+            else:
+                return render(request, "notification/create.html", {"form": notificationform})
+        else:        
+            notificationform = NotificationForm(initial={'daten': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), })
+            return render(request, "notification/create.html", {"form": notificationform})
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Функция edit выполняет редактирование объекта.
+# Функция в качестве параметра принимает идентификатор объекта в базе данных.
+@login_required
+@group_required("Managers")
+def notification_edit(request, id):
+    try:
+        notification = Notification.objects.get(id=id) 
+        if request.method == "POST":
+            notification.daten = request.POST.get("daten")
+            notification.client = Client.objects.filter(id=request.POST.get("client")).first()
+            notification.details = request.POST.get("details")            
+            notificationform = NotificationForm(request.POST)
+            if notificationform.is_valid():
+                notification.save()
+                return HttpResponseRedirect(reverse('notification_index'))
+            else:
+                return render(request, "notification/edit.html", {"form": notificationform})
+        else:
+            # Загрузка начальных данных
+            notificationform = NotificationForm(initial={'daten': notification.daten.strftime('%Y-%m-%d %H:%M:%S'), 'client': notification.client, 'details': notification.details })
+            return render(request, "notification/edit.html", {"form": notificationform})
+    except Notification.DoesNotExist:
+        return HttpResponseNotFound("<h2>Notification not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Удаление данных из бд
+# Функция delete аналогичным функции edit образом находит объет и выполняет его удаление.
+@login_required
+@group_required("Managers")
+def notification_delete(request, id):
+    try:
+        notification = Notification.objects.get(id=id)
+        notification.delete()
+        return HttpResponseRedirect(reverse('notification_index'))
+    except Notification.DoesNotExist:
+        return HttpResponseNotFound("<h2>Notification not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# Просмотр страницы read.html для просмотра объекта.
+#@login_required
+def notification_read(request, id):
+    try:
+        notification = Notification.objects.get(id=id) 
+        return render(request, "notification/read.html", {"notification": notification})
+    except Notification.DoesNotExist:
+        return HttpResponseNotFound("<h2>Notification not found</h2>")
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
+
+# ModelViewSet - это специальное представление, которое предоставляет Django Rest Framework. Он обрабатывает GET и POST без дополнительной работы.
+# Класс ModelViewSet наследуется от GenericAPIView и реализует различные действия, совмещая функционал различных классов миксинов.
+# Класс ModelViewSet предоставляет следующие действия .list(), .retrieve(), .create(), .update(), .partial_update(), и .destroy(). 
+class notificationViewSet(viewsets.ModelViewSet):
+    queryset = Notification.objects.all().order_by('-daten')
+    serializer_class = NotificationSerializer
+    # http://127.0.0.1:8000/api/notification/
 
 ###################################################################################################
 

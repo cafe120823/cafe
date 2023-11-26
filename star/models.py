@@ -257,6 +257,32 @@ class Reservation(models.Model):
         # Вывод в тег SELECT 
         return "{}: {}".format(self.dater, self.client)
 
+# Уведомления клиенту
+class Notification(models.Model):
+    # Дата создания уведомления
+    datec = models.DateTimeField(_('notification_create'), auto_now_add=True)
+    # Дата и время получения уведомления
+    daten = models.DateTimeField(_('notification_date'))
+    # Клиент
+    client = models.ForeignKey(Client, related_name='notification_client', on_delete=models.CASCADE)
+    # Текст уведомления
+    details = models.TextField(_('notification_details')) 
+    # Дата прочтении уведомления
+    datev = models.DateTimeField(_('notification_viewed'), blank=True, null=True)
+    class Meta:
+        # Параметры модели
+        # Переопределение имени таблицы
+        db_table = 'notification'
+        # indexes - список индексов, которые необходимо определить в модели
+        indexes = [
+            models.Index(fields=['daten']),
+        ]
+        # Сортировка по умолчанию
+        ordering = ['daten']
+    def __str__(self):
+        # Вывод в тег SELECT 
+        return "{}: {}, {}".format(self.daten, self.client, self.details)
+
 # Настройки
 class Configuration(models.Model):
     # Дата настройки

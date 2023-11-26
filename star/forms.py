@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import CheckboxInput, ModelForm, TextInput, Textarea, DateInput, NumberInput, DateTimeInput
-from .models import Category, Catalog, Bill, Detailing, Reservation, Configuration, News
+from .models import Category, Catalog, Bill, Detailing, Reservation, Notification, Configuration, News
 #from django.utils.translation import ugettext as _
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
@@ -124,6 +124,20 @@ class ReservationForm(forms.ModelForm):
     #        raise forms.ValidationError(_('Value must start with a capital letter'))
     #    # Метод-валидатор обязательно должен вернуть очищенные данные, даже если не изменил их
     #    return data
+
+# Уведомления
+class NotificationForm(forms.ModelForm):
+    class Meta:
+        model = Notification
+        fields = ['daten', 'client', 'details']
+        widgets = {
+            'daten': DateTimeInput(format='%d/%m/%Y %H:%M:%S'),
+            'client': forms.Select(attrs={'class': 'chosen'}),
+            'details': Textarea(attrs={'cols': 100, 'rows': 5}),               
+        }
+        labels = {
+            'client': _('client'),
+        }
 
 # Настройки
 class ConfigurationForm(forms.ModelForm):

@@ -3,7 +3,7 @@
 # в нативные типы данных Python, которые затем могут быть легко срендерены в JSON, XML или другие типы контента. 
 # Сериализаторы также обеспечивают десериализацию, позволяя преобразовать спарсенные данные обратно в сложные типы после проверки входящих данных.
 from rest_framework import serializers
-from .models import Category, Catalog, ViewCatalog, Bill, ViewBill, Detailing, ViewDetailing, Reservation, Configuration, Client, Bonus, Review, News
+from .models import Category, Catalog, ViewCatalog, Bill, ViewBill, Detailing, ViewDetailing, Reservation, Notification, Configuration, Client, Bonus, Review, News
 
 class CategorySerializer(serializers.ModelSerializer ):
     class Meta:
@@ -67,6 +67,13 @@ class ReservationSerializer(serializers.ModelSerializer):
         #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
         fields = "__all__"
         
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        #fields = ("id", "datec", "daten", "client", "details", "datev")
+        #Если в сериализаторе мы собираемся работать со всеми полями модели, то в классе Meta можно прописать:
+        fields = "__all__"
+
 class ConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Configuration

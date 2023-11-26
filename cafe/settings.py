@@ -106,10 +106,10 @@ DATABASES = {
 
     'default': {
 	    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-	    'NAME': 'cafe_34xr',
+	    'NAME': 'cafe_tkzk',
 	    'USER' : 'cafe_admin',
-	    'PASSWORD' : 'ReEs1AYFJ86wOhBjddY120tAgk3ACvCh',
-	    'HOST' : 'dpg-ckvs4b3amefc73bdb59g-a.frankfurt-postgres.render.com',
+	    'PASSWORD' : 'gHEy9BRS3dnm0TQcV1u36Ah9ZLGU2RJu',
+	    'HOST' : 'dpg-clhd26ef27hc739q5djg-a.frankfurt-postgres.render.com',
 	    'PORT' : '5432',
     }
     

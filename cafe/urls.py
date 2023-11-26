@@ -38,6 +38,7 @@ router.register(r'bonus', views.bonusViewSet)
 router.register(r'review', views.reviewViewSet)
 router.register(r'viewdetailing', views.viewDetailingViewSet)
 router.register(r'news', views.newsViewSet)
+router.register(r'notification', views.notificationViewSet)
 router.register(r'configuration', views.configurationViewSet)
 
 urlpatterns = [
@@ -102,6 +103,12 @@ urlpatterns = [
     
     path('client/index/', views.client_index, name='client_index'),
     path('client/read/<int:id>/', views.client_read, name='client_read'),
+
+    path('notification/index/', views.notification_index, name='notification_index'),
+    path('notification/create/', views.notification_create, name='notification_create'),
+    path('notification/edit/<int:id>/', views.notification_edit, name='notification_edit'),
+    path('notification/delete/<int:id>/', views.notification_delete, name='notification_delete'),
+    path('notification/read/<int:id>/', views.notification_read, name='notification_read'),
 
     path('news/index/', views.news_index, name='news_index'),
     path('news/list/', views.news_list, name='news_list'),

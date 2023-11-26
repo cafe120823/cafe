@@ -8,24 +8,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-10 21:19+0600\n"
+"POT-Creation-Date: 2023-11-26 10:04+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%"
+"100>=11 && n%100<=14)? 2 : 3);\n"
+
 #: .\star\forms.py:26 .\star\models.py:32 .\star\models.py:66
 #: .\star\models.py:212 .\templates\category\index.html:12
 msgid "category_title"
 msgstr "Название категории"
-
-#: .\star\forms.py:33 .\star\forms.py:142
-msgid "Value must start with a capital letter"
-msgstr "Значение должно начинаться с заглавной буквы"
 
 #: .\star\forms.py:50 .\templates\catalog\index.html:14
 #: .\templates\catalog\list.html:25 .\templates\category\create.html:6
@@ -38,7 +35,7 @@ msgstr "Категория"
 msgid "Price must be greater than zero"
 msgstr "Цена должна быть больше нуля"
 
-#: .\star\forms.py:76 .\star\forms.py:162
+#: .\star\forms.py:76 .\star\forms.py:176
 msgid "Wrong date and time format"
 msgstr "Неправильный формат даты и времени"
 
@@ -53,6 +50,17 @@ msgstr "Каталог"
 msgid "Quantity must be greater than zero"
 msgstr "Количество должно быть больше нуля."
 
+#: .\star\forms.py:139 .\star\models.py:147 .\templates\bill\index.html:13
+#: .\templates\bill\read.html:14 .\templates\client\read.html:6
+#: .\templates\client\read.html:24 .\templates\notification\index.html:13
+#: .\templates\reservation\index.html:13
+msgid "client"
+msgstr "Клиент"
+
+#: .\star\forms.py:156
+msgid "Value must start with a capital letter"
+msgstr "Значение должно начинаться с заглавной буквы"
+
 #: .\star\models.py:44 .\star\models.py:67 .\star\models.py:213
 msgid "catalog_title"
 msgstr "Название"
@@ -62,7 +70,7 @@ msgid "catalog_details"
 msgstr "Описание"
 
 #: .\star\models.py:46 .\star\models.py:69 .\star\models.py:176
-#: .\star\models.py:216 .\star\models.py:287 .\templates\catalog\index.html:16
+#: .\star\models.py:216 .\star\models.py:313 .\templates\catalog\index.html:16
 #: .\templates\catalog\list.html:62 .\templates\catalog\list.html:64
 #: .\templates\detailing\index.html:62 .\templates\report\index.html:36
 #: .\templates\report\index.html:75
@@ -109,7 +117,8 @@ msgstr "Дата заказа"
 
 #: .\star\models.py:114 .\star\models.py:148 .\star\models.py:205
 #: .\templates\bill\index.html:13 .\templates\bill\read.html:11
-#: .\templates\catalog\basket.html:48 .\templates\detailing\index.html:11
+#: .\templates\catalog\basket.html:48 .\templates\client\read.html:24
+#: .\templates\detailing\index.html:11
 msgid "place"
 msgstr "Столик"
 
@@ -118,28 +127,30 @@ msgid "bill_comments"
 msgstr "Комментарии к заказу"
 
 #: .\star\models.py:118 .\star\models.py:150 .\star\models.py:207
-#: .\templates\bill\index.html:15 .\templates\bill\read.html:16
-#: .\templates\detailing\index.html:13 .\templates\detailing\index.html:64
-#: .\templates\report\index.html:77
+#: .\templates\bill\index.html:15 .\templates\bill\read.html:17
+#: .\templates\client\read.html:26 .\templates\detailing\index.html:13
+#: .\templates\detailing\index.html:64 .\templates\report\index.html:77
 msgid "total"
 msgstr "Всего начисленно"
 
 #: .\star\models.py:120 .\star\models.py:151 .\star\models.py:208
-#: .\templates\bill\index.html:16 .\templates\bill\read.html:17
-#: .\templates\detailing\index.html:15 .\templates\detailing\index.html:25
+#: .\templates\bill\index.html:16 .\templates\bill\read.html:18
+#: .\templates\client\read.html:27 .\templates\detailing\index.html:15
+#: .\templates\detailing\index.html:25
 msgid "discount"
 msgstr "Скидка"
 
 #: .\star\models.py:122 .\star\models.py:152 .\star\models.py:209
 #: .\templates\base.html:74 .\templates\bill\index.html:17
-#: .\templates\bill\read.html:18 .\templates\bonus\index.html:4
-#: .\templates\bonus\index.html:7 .\templates\detailing\index.html:16
+#: .\templates\bill\read.html:19 .\templates\bonus\index.html:4
+#: .\templates\bonus\index.html:7 .\templates\client\read.html:28
+#: .\templates\detailing\index.html:16
 msgid "bonus"
 msgstr "Бонусы"
 
 #: .\star\models.py:124 .\star\models.py:153 .\star\models.py:210
-#: .\templates\bill\index.html:18 .\templates\bill\read.html:19
-#: .\templates\detailing\index.html:17
+#: .\templates\bill\index.html:18 .\templates\bill\read.html:20
+#: .\templates\client\read.html:29 .\templates\detailing\index.html:17
 msgid "amount"
 msgstr "Всего оплачено"
 
@@ -147,17 +158,11 @@ msgstr "Всего оплачено"
 msgid "client_id"
 msgstr "ID Клиента"
 
-#: .\star\models.py:147 .\templates\bill\index.html:13
-#: .\templates\bill\read.html:14 .\templates\client\read.html:6
-#: .\templates\reservation\index.html:13
-msgid "client"
-msgstr "Клиент"
-
 #: .\star\models.py:154
 msgid "bill_details"
 msgstr "Детали заказа"
 
-#: .\star\models.py:177 .\star\models.py:217 .\star\models.py:288
+#: .\star\models.py:177 .\star\models.py:217 .\star\models.py:314
 #: .\templates\detailing\index.html:63 .\templates\detailing\read.html:14
 #: .\templates\report\index.html:76
 msgid "quantity"
@@ -168,6 +173,7 @@ msgid "bill_id"
 msgstr "ID Заказа"
 
 #: .\star\models.py:200 .\templates\bill\index.html:12
+#: .\templates\client\read.html:23
 msgid "dateb"
 msgstr "Дата"
 
@@ -183,54 +189,55 @@ msgstr "Сумма"
 msgid "reservation_date"
 msgstr "Дата бронирования"
 
-#: .\star\models.py:265 .\templates\configuration\index.html:13
+#: .\star\models.py:291 .\templates\configuration\index.html:13
 #: .\templates\configuration\read.html:13
 msgid "configuration_discount"
 msgstr "Скидка, %"
 
-#: .\star\models.py:268 .\templates\configuration\index.html:14
+#: .\star\models.py:294 .\templates\configuration\index.html:14
 #: .\templates\configuration\read.html:14
 msgid "configuration_bonus"
 msgstr "Бонусы, %"
 
-#: .\star\models.py:285
+#: .\star\models.py:311
 msgid "basketday"
 msgstr "Дата"
 
-#: .\star\models.py:312 .\templates\bonus\index.html:15
+#: .\star\models.py:338 .\templates\bonus\index.html:15
 msgid "accrued"
 msgstr "Начисленно (потрачено)"
 
-#: .\star\models.py:329 .\templates\review\index.html:13
-#: .\templates\review\list.html:13
+#: .\star\models.py:355 .\templates\client\read.html:81
+#: .\templates\review\index.html:13 .\templates\review\list.html:13
 msgid "dater"
 msgstr "Дата"
 
-#: .\star\models.py:331 .\templates\catalog\details.html:66
+#: .\star\models.py:357 .\templates\catalog\details.html:66
 #: .\templates\catalog\list.html:67 .\templates\catalog\list.html:69
-#: .\templates\report\index.html:141 .\templates\review\index.html:14
-#: .\templates\review\list.html:14
+#: .\templates\client\read.html:82 .\templates\report\index.html:141
+#: .\templates\review\index.html:14 .\templates\review\list.html:14
 msgid "rating"
 msgstr "Оценка"
 
-#: .\star\models.py:332 .\templates\report\index.html:142
-#: .\templates\review\index.html:15 .\templates\review\list.html:15
+#: .\star\models.py:358 .\templates\client\read.html:83
+#: .\templates\report\index.html:142 .\templates\review\index.html:15
+#: .\templates\review\list.html:15
 msgid "review_details"
 msgstr "Текст отзыва"
 
-#: .\star\models.py:346 .\templates\news\index.html:12
+#: .\star\models.py:372 .\templates\news\index.html:12
 msgid "daten"
 msgstr "Дата"
 
-#: .\star\models.py:347
+#: .\star\models.py:373
 msgid "title_news"
 msgstr "Заголовок новости"
 
-#: .\star\models.py:348
+#: .\star\models.py:374
 msgid "details_news"
 msgstr "Детали новости"
 
-#: .\star\models.py:349
+#: .\star\models.py:375
 msgid "photo_news"
 msgstr "Фотография"
 
@@ -240,13 +247,14 @@ msgstr "Главная"
 
 #: .\templates\base.html:46 .\templates\base.html:75
 #: .\templates\catalog\details.html:41 .\templates\catalog\details.html:60
-#: .\templates\report\index.html:20 .\templates\report\index.html:131
-#: .\templates\review\index.html:4 .\templates\review\index.html:7
-#: .\templates\review\list.html:4 .\templates\review\list.html:7
+#: .\templates\client\read.html:76 .\templates\report\index.html:20
+#: .\templates\report\index.html:131 .\templates\review\index.html:4
+#: .\templates\review\index.html:7 .\templates\review\list.html:4
+#: .\templates\review\list.html:7
 msgid "reviews"
 msgstr "Отзывы"
 
-#: .\templates\base.html:49 .\templates\base.html:77
+#: .\templates\base.html:49 .\templates\base.html:78
 #: .\templates\news\index.html:3 .\templates\news\index.html:6
 #: .\templates\news\list.html:4 .\templates\news\list.html:8
 msgid "newss"
@@ -256,7 +264,7 @@ msgstr "Новости"
 msgid "Contacts"
 msgstr "Контакты"
 
-#: .\templates\base.html:56 .\templates\base.html:81
+#: .\templates\base.html:56 .\templates\base.html:82
 #: .\templates\catalog\basket.html:4 .\templates\catalog\basket.html:7
 #: .\templates\catalog\list.html:10
 msgid "Basket"
@@ -264,6 +272,7 @@ msgstr "Корзина"
 
 #: .\templates\base.html:59 .\templates\base.html:71
 #: .\templates\bill\index.html:3 .\templates\bill\index.html:6
+#: .\templates\client\read.html:18
 msgid "bills"
 msgstr "Заказы"
 
@@ -272,7 +281,7 @@ msgstr "Заказы"
 msgid "categorys"
 msgstr "Категории"
 
-#: .\templates\base.html:70 .\templates\configuration\create.html:6
+#: .\templates\base.html:69 .\templates\configuration\create.html:6
 #: .\templates\configuration\edit.html:6 .\templates\configuration\read.html:6
 msgid "configuration"
 msgstr "Настройки"
@@ -287,28 +296,33 @@ msgstr "Бронирование"
 msgid "clients"
 msgstr "Клиенты"
 
-#: .\templates\base.html:80 .\templates\catalog\buy.html:4
+#: .\templates\base.html:76 .\templates\notification\index.html:3
+#: .\templates\notification\index.html:6
+msgid "notifications"
+msgstr "Уведомления"
+
+#: .\templates\base.html:81 .\templates\catalog\buy.html:4
 #: .\templates\catalog\buy.html:7
 msgid "My purchases"
 msgstr "Мои покупки"
 
-#: .\templates\base.html:84
+#: .\templates\base.html:85
 msgid "My account"
 msgstr "Моя учетная запись"
 
-#: .\templates\base.html:85
+#: .\templates\base.html:86
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: .\templates\base.html:87
+#: .\templates\base.html:88
 msgid "Log out"
 msgstr "Выход"
 
-#: .\templates\base.html:92
+#: .\templates\base.html:93
 msgid "Log In"
 msgstr "Вход"
 
-#: .\templates\base.html:93
+#: .\templates\base.html:94
 msgid "Sign up"
 msgstr "Регистрация"
 
@@ -321,7 +335,9 @@ msgstr "Регистрация"
 #: .\templates\configuration\index.html:43 .\templates\detailing\create.html:3
 #: .\templates\detailing\index.html:66 .\templates\detailing\index.html:107
 #: .\templates\news\create.html:3 .\templates\news\index.html:15
-#: .\templates\news\index.html:47
+#: .\templates\news\index.html:47 .\templates\notification\create.html:3
+#: .\templates\notification\index.html:17
+#: .\templates\notification\index.html:55
 msgid "Add"
 msgstr "Добавить"
 
@@ -336,24 +352,26 @@ msgstr "Заказ"
 #: .\templates\configuration\create.html:13
 #: .\templates\configuration\edit.html:13 .\templates\detailing\create.html:13
 #: .\templates\detailing\edit.html:13 .\templates\news\create.html:13
-#: .\templates\news\edit.html:13 .\templates\reservation\edit.html:33
+#: .\templates\news\edit.html:13 .\templates\notification\create.html:13
+#: .\templates\notification\edit.html:13 .\templates\reservation\edit.html:33
 msgid "Save"
 msgstr "Сохранить"
 
 #: .\templates\bill\create.html:14 .\templates\bill\edit.html:14
-#: .\templates\bill\read.html:26 .\templates\catalog\basket.html:60
+#: .\templates\bill\read.html:27 .\templates\catalog\basket.html:60
 #: .\templates\catalog\create.html:14 .\templates\catalog\details.html:56
 #: .\templates\catalog\edit.html:14 .\templates\catalog\read.html:32
 #: .\templates\catalog\read.html:33 .\templates\category\create.html:14
 #: .\templates\category\edit.html:14 .\templates\category\read.html:19
-#: .\templates\client\read.html:26 .\templates\configuration\create.html:14
+#: .\templates\client\read.html:110 .\templates\configuration\create.html:14
 #: .\templates\configuration\edit.html:14
 #: .\templates\configuration\read.html:21 .\templates\detailing\create.html:14
 #: .\templates\detailing\edit.html:14 .\templates\detailing\index.html:49
 #: .\templates\detailing\read.html:34 .\templates\detailing\read.html:35
 #: .\templates\news\create.html:14 .\templates\news\edit.html:14
-#: .\templates\news\read.html:29 .\templates\reservation\edit.html:34
-#: .\templates\reservation\read.html:24
+#: .\templates\news\read.html:29 .\templates\notification\create.html:14
+#: .\templates\notification\edit.html:14 .\templates\notification\read.html:23
+#: .\templates\reservation\edit.html:34 .\templates\reservation\read.html:24
 msgid "Back"
 msgstr "Назад"
 
@@ -363,14 +381,17 @@ msgstr "Назад"
 #: .\templates\configuration\edit.html:3
 #: .\templates\configuration\index.html:32 .\templates\detailing\edit.html:3
 #: .\templates\detailing\index.html:95 .\templates\news\edit.html:3
-#: .\templates\news\index.html:36 .\templates\reservation\edit.html:3
+#: .\templates\news\index.html:36 .\templates\notification\edit.html:3
+#: .\templates\notification\index.html:44 .\templates\reservation\edit.html:3
 #: .\templates\reservation\index.html:44
 msgid "Change"
 msgstr "Изменить"
 
 #: .\templates\bill\index.html:14 .\templates\bill\index.html:34
-#: .\templates\detailing\create.html:6 .\templates\detailing\edit.html:6
-#: .\templates\detailing\index.html:4 .\templates\detailing\index.html:54
+#: .\templates\bill\read.html:15 .\templates\client\read.html:25
+#: .\templates\client\read.html:43 .\templates\detailing\create.html:6
+#: .\templates\detailing\edit.html:6 .\templates\detailing\index.html:4
+#: .\templates\detailing\index.html:54
 msgid "detailing"
 msgstr "Детали"
 
@@ -381,20 +402,22 @@ msgstr "Детали"
 #: .\templates\configuration\index.html:33
 #: .\templates\configuration\read.html:3 .\templates\detailing\index.html:96
 #: .\templates\detailing\read.html:4 .\templates\news\index.html:37
-#: .\templates\news\read.html:4 .\templates\reservation\index.html:45
+#: .\templates\news\read.html:4 .\templates\notification\index.html:45
+#: .\templates\notification\read.html:4 .\templates\reservation\index.html:45
 #: .\templates\reservation\read.html:3
 msgid "View"
 msgstr "Просмотреть"
 
-#: .\templates\bill\index.html:63 .\templates\bonus\index.html:28
+#: .\templates\bill\index.html:63 .\templates\bonus\index.html:36
 #: .\templates\catalog\basket.html:35 .\templates\catalog\index.html:42
 #: .\templates\category\index.html:26 .\templates\configuration\index.html:34
 #: .\templates\detailing\index.html:97 .\templates\news\index.html:38
-#: .\templates\reservation\index.html:46 .\templates\review\index.html:29
+#: .\templates\notification\index.html:46
+#: .\templates\reservation\index.html:46 .\templates\review\index.html:33
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\templates\bill\read.html:15
+#: .\templates\bill\read.html:16
 msgid "comments"
 msgstr "Комментарии"
 
@@ -547,6 +570,23 @@ msgstr "Полный каталог"
 #: .\templates\news\read.html:7
 msgid "news"
 msgstr "Новости"
+
+#: .\templates\notification\create.html:6 .\templates\notification\edit.html:6
+#: .\templates\notification\read.html:7
+msgid "notification"
+msgstr "Уведомление"
+
+#: .\templates\notification\index.html:12
+msgid "notification_date"
+msgstr "Дата уведомления"
+
+#: .\templates\notification\index.html:14
+msgid "notification_details"
+msgstr "Текст уведомления"
+
+#: .\templates\notification\index.html:15
+msgid "notification_viewed"
+msgstr "Уведомление просмотрено"
 
 #: .\templates\report\index.html:4 .\templates\report\index.html:7
 msgid "Reports"
