@@ -8,156 +8,86 @@
 
 <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
 	<li class="nav-item" role="presentation">
-		<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">{% trans "catalog" %}</button>
+		<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">{% trans "client_bill_sum" %}</button>
 	</li>
 	<li class="nav-item" role="presentation">
-		<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">{% trans "Sale" %}</button>
+		<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">{% trans "client_bill_count" %}</button>
 	</li>
 	<li class="nav-item" role="presentation">
-		<button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="true">{% trans "delivery" %}</button>
-	</li>
-	<li class="nav-item" role="presentation">
-		<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">{% trans "reviews" %}</button>
+		<button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="true">{% trans "catalog_bill_count" %}</button>
 	</li>
 </ul>
 <div class="tab-content" id="myTabContent">
 	<div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="home-tab">
 		<div class="row">
-			<h1>{% trans "catalog" %}</h1>
+			<h1>{% trans "client_bill_sum" %}</h1>
 		</div>
-		{% if catalog.count > 0 %}
-			<div class="row">
-				<table id="myTable" class="table-manager" style="width:100%">
-					<thead>
-						<tr>
-							<th><p>{% trans "category" %}</p></th>
-							<th><p>{% trans "subcategory" %}</p></th>
-							<th><p>{% trans "title" %}</p></th>
-							<th><p>{% trans "price" %}</p></th>
-							<th><p>{% trans "photo" %}</p></th>
-							<th><p>{% trans "available" %}</p></th>
-							<th><p>{% trans "Avg Rating" %}</p></th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for c in catalog %}
-						<tr>
-							<td><p>{{ c.category }}</p></td>
-							<td><p>{{ c.subcategory }}</p></td>
-							<td><p>{{ c.title }}</p></td>
-							<td><p>{{ c.price | stringformat:"1.0f" }}</p></td>
-							<td><p>
-								{% if c.photo.url != None %}
-									<img style="width:100%; max-width:200px;" src="{{ c.photo.url}}" alt="{{ c.photo.url }}">
-								{% endif %}
-							</p></td>
-							<td><p>{% if c.available != None %} {{ c.available }} {% endif %}</p></td>
-							<td><p>{% if c.avg_rating != None %} {{ c.avg_rating | floatformat:1 }} {% endif %}</p></td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
+		<div class="row">
+			<table id="myTable" class="table-manager" style="width:100%">
+				<thead>
+					<tr>
+						<th><p>{% trans "client" %}</p></th>
+						<th><p>{% trans "client_bill_sum" %}</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for c in client_bill_sum %}
+					<tr>
+						<td><p>{{ c.client }}</p></td>
+						<td><p>{{ c.client_bill_sum | stringformat:"1.0f" }}</p></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>		
 	</div>
 	<div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="profile-tab">
 		<div class="row">
-			<h1>{% trans "Sale" %}</h1>
+			<h1>{% trans "client_bill_count" %}</h1>
 		</div>
-		{% if sale.count > 0 %}
-			<div class="row">
-				<table id="myTable" class="table-manager" style="width:100%">
-					<thead>
-						<tr>
-							<th><p>{% trans "saleday" %}</p></th>
-							<th><p>{% trans "username" %}</p></th>
-							<th><p>{% trans "title" %}</p></th>
-							<th><p>{% trans "price" %}</p></th>
-							<th><p>{% trans "quantity" %}</p></th>
-							<th><p>{% trans "total" %}</p></th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for s in sale %}
-						<tr>
-							<td><p>{{ s.saleday | date:"d.m.Y"}}</p></td>
-							<td><p>{{ s.username }}</p></td>
-							<td><p>{{ s.category }}<br>{{ s.subcategory }}<br>{{ s.title }}</p></td>
-							<td><p>{{ s.price | stringformat:"1.0f" }}</p></td>
-							<td><p>{{ s.quantity }}</p></td>
-							<td><p>{{ s.total | stringformat:"1.0f"}}</p></td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
+		<div class="row">
+			<table id="myTable" class="table-manager" style="width:100%">
+				<thead>
+					<tr>
+						<th><p>{% trans "client" %}</p></th>
+						<th><p>{% trans "client_bill_count" %}</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for s in client_bill_count %}
+					<tr>
+						<td><p>{{ s.client}}</p></td>
+						<td><p>{{ s.client_bill_count }}</p></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="home-tab">
 		<div class="row">
-			<h1>{% trans "delivery" %}</h1>
+			<h1>{% trans "catalog_bill_count" %}</h1>
 		</div>
-		{% if delivery.count > 0 %}
-			<div class="row">
-				<table id="myTable" class="table-manager" style="width:100%">
-					<thead>
-						<tr>
-							<th><p>{% trans "deliveryday" %}</p></th>
-							<th><p>{% trans "movement" %}</p></th>
-							<th><p>{% trans "delivery_details" %}</p></th>
-							<th><p>{% trans "saleday" %}</p></th>
-							<th><p>{% trans "username" %}</p></th>
-							<th><p>{% trans "title" %}</p></th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for d in delivery %}
-						<tr>
-							<td><p>{{ d.deliveryday | date:"d.m.Y"}}</p></td>
-							<td><p>{{ d.movement }}</p></td>
-							<td><p>{{ d.details | linebreaks }}</p></td>
-							<td><p>{{ d.sale.saleday | date:"d.m.Y"}}</p></td>
-							<td><p>{{ d.sale.user.username }}</p></td>
-							<td><p>{{ d.sale.catalog.category.title }}<br>{{ d.sale.catalog.subcategory.title }}<br>{{ d.sale.catalog.title }}</p></td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
-	</div>
-	<div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="profile-tab">
 		<div class="row">
-			<h1>{% trans "reviews" %}</h1>
+			<table id="myTable" class="table-manager" style="width:100%">
+				<thead>
+					<tr>
+						<th><p>{% trans "category" %}</p></th>
+						<th><p>{% trans "title" %}</p></th>
+						<th><p>{% trans "catalog_bill_count" %}</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for d in catalog_bill_count %}
+					<tr>
+						<td><p>{{ d.category }}</p></td>
+						<td><p>{{ d.title }}</p></td>
+						<td><p>{{ d.catalog_bill_count }}</p></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
-		{% if review.count > 0 %}
-			<div class="row">
-				<table id="myTable" class="table-manager" style="width:100%">
-					<thead>
-						<tr>
-							<th><p>{% trans "saleday" %}</p></th>
-							<th><p>{% trans "username" %}</p></th>
-							<th><p>{% trans "title" %}</p></th>
-							<th><p>{% trans "rating" %}</p></th>
-							<th><p>{% trans "review_details" %}</p></th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for r in review %}
-						{% if r.rating != None %}
-						<tr>
-							<td><p>{{ r.saleday | date:"d.m.Y"}}</p></td>
-							<td><p>{{ r.username }}</p></td>
-							<td><p>{{ r.category }}<br>{{ r.subcategory }}<br>{{ r.title }}</p></td>
-							<td><p>{{ r.rating }}</p></td>
-							<td><p>{{ r.details | linebreaks }}</p></td>
-						</tr>
-						{% endif %}
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
 	</div>
 </div>
 {% endblock content %}

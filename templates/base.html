@@ -74,9 +74,11 @@
 								<li><a class="dropdown-item" href="{% url 'bonus_index' %}">{% trans "bonus" %}</a></li>
 								<li><a class="dropdown-item" href="{% url 'review_index' %}">{% trans "reviews" %}</a></li>
 								<li><a class="dropdown-item" href="{% url 'notification_index' %}">{% trans "notifications" %}</a></li>
+								<div class="dropdown-divider"></div><li>
+								<a class="dropdown-item" href="{% url 'report_index' %}">{% trans "reports" %}</a></li>
 								<div class="dropdown-divider"></div>
-								<li><a class="dropdown-item" href="{% url 'news_index' %}">{% trans "newss" %}</a></li>
 								<div class="dropdown-divider"></div>
+								<li><a class="dropdown-item" href="{% url 'news_index' %}">{% trans "newss" %}</a></li>																
 							{% else %}
 								<li><a class="dropdown-item" href="{% url 'buy' %}">{% trans "My purchases" %}</a></li>
 								<li><a class="dropdown-item" href="{% url 'basket' %}">{% trans "Basket" %}</a></li>									

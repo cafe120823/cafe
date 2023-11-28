@@ -82,20 +82,34 @@ def contact(request):
         print(exception)
         return HttpResponse(exception)
 
-## Отчеты
-#@login_required
-#@group_required("Managers")
-#def report_index(request):
-#    try:
-#        catalog = ViewCatalog.objects.all().order_by('title')
-#        sale = ViewSale.objects.all().order_by('saleday')
-#        delivery = Delivery.objects.all().order_by('deliveryday')
-#        review = ViewSale.objects.exclude(rating=None).order_by('category', 'title', 'saleday')
-#        return render(request, "report/index.html", {"catalog": catalog, "sale": sale, "delivery": delivery, "review": review })    
-#    except Exception as exception:
-#        print(exception)
-#        return HttpResponse(exception)    
-
+###################################################################################################
+# Отчеты
+@login_required
+@group_required("Managers")
+def report_index(request):
+    try:
+        client_bill_sum = ViewBill.objects.raw("""
+SELECT 1 as id, client, SUM(total) AS client_bill_sum
+FROM view_bill
+GROUP BY client
+ORDER BY SUM(total) DESC
+""")
+        client_bill_count = ViewBill.objects.raw("""
+SELECT 1 as id, client, COUNT(*) AS client_bill_count
+FROM view_bill
+GROUP BY client
+ORDER BY COUNT(*) DESC
+""")
+        catalog_bill_count = ViewBill.objects.raw("""
+SELECT 1 as id, category, title, SUM(quantity) AS catalog_bill_count
+FROM view_detailing
+GROUP BY category, title
+ORDER BY SUM(quantity) DESC
+""")
+        return render(request, "report/index.html", {"client_bill_sum": client_bill_sum, "client_bill_count": client_bill_count, "catalog_bill_count": catalog_bill_count, })
+    except Exception as exception:
+        print(exception)
+        return HttpResponse(exception)
 ###################################################################################################
 
 # Список для изменения с кнопками создать, изменить, удалить

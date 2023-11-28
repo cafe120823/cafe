@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-26 10:04+0600\n"
+"POT-Creation-Date: 2023-11-28 11:59+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "Название категории"
 #: .\star\forms.py:50 .\templates\catalog\index.html:14
 #: .\templates\catalog\list.html:25 .\templates\category\create.html:6
 #: .\templates\category\edit.html:6 .\templates\category\read.html:6
-#: .\templates\detailing\index.html:60 .\templates\report\index.html:33
+#: .\templates\detailing\index.html:60 .\templates\report\index.html:75
 msgid "category"
 msgstr "Категория"
 
@@ -42,7 +42,6 @@ msgstr "Неправильный формат даты и времени"
 #: .\star\forms.py:90 .\templates\base.html:43 .\templates\base.html:68
 #: .\templates\catalog\create.html:6 .\templates\catalog\edit.html:6
 #: .\templates\catalog\index.html:4 .\templates\catalog\index.html:8
-#: .\templates\report\index.html:11 .\templates\report\index.html:26
 msgid "catalog"
 msgstr "Каталог"
 
@@ -53,6 +52,7 @@ msgstr "Количество должно быть больше нуля."
 #: .\star\forms.py:139 .\star\models.py:147 .\templates\bill\index.html:13
 #: .\templates\bill\read.html:14 .\templates\client\read.html:6
 #: .\templates\client\read.html:24 .\templates\notification\index.html:13
+#: .\templates\report\index.html:29 .\templates\report\index.html:52
 #: .\templates\reservation\index.html:13
 msgid "client"
 msgstr "Клиент"
@@ -72,8 +72,7 @@ msgstr "Описание"
 #: .\star\models.py:46 .\star\models.py:69 .\star\models.py:176
 #: .\star\models.py:216 .\star\models.py:313 .\templates\catalog\index.html:16
 #: .\templates\catalog\list.html:62 .\templates\catalog\list.html:64
-#: .\templates\detailing\index.html:62 .\templates\report\index.html:36
-#: .\templates\report\index.html:75
+#: .\templates\detailing\index.html:62
 msgid "price"
 msgstr "Цена"
 
@@ -83,7 +82,6 @@ msgstr "Доступность"
 
 #: .\star\models.py:48 .\star\models.py:71 .\star\models.py:215
 #: .\templates\catalog\index.html:17 .\templates\detailing\index.html:65
-#: .\templates\report\index.html:37
 msgid "photo"
 msgstr "Фотография"
 
@@ -129,7 +127,7 @@ msgstr "Комментарии к заказу"
 #: .\star\models.py:118 .\star\models.py:150 .\star\models.py:207
 #: .\templates\bill\index.html:15 .\templates\bill\read.html:17
 #: .\templates\client\read.html:26 .\templates\detailing\index.html:13
-#: .\templates\detailing\index.html:64 .\templates\report\index.html:77
+#: .\templates\detailing\index.html:64
 msgid "total"
 msgstr "Всего начисленно"
 
@@ -164,7 +162,6 @@ msgstr "Детали заказа"
 
 #: .\star\models.py:177 .\star\models.py:217 .\star\models.py:314
 #: .\templates\detailing\index.html:63 .\templates\detailing\read.html:14
-#: .\templates\report\index.html:76
 msgid "quantity"
 msgstr "Количество"
 
@@ -214,14 +211,13 @@ msgstr "Дата"
 
 #: .\star\models.py:357 .\templates\catalog\details.html:66
 #: .\templates\catalog\list.html:67 .\templates\catalog\list.html:69
-#: .\templates\client\read.html:82 .\templates\report\index.html:141
-#: .\templates\review\index.html:14 .\templates\review\list.html:14
+#: .\templates\client\read.html:82 .\templates\review\index.html:14
+#: .\templates\review\list.html:14
 msgid "rating"
 msgstr "Оценка"
 
 #: .\star\models.py:358 .\templates\client\read.html:83
-#: .\templates\report\index.html:142 .\templates\review\index.html:15
-#: .\templates\review\list.html:15
+#: .\templates\review\index.html:15 .\templates\review\list.html:15
 msgid "review_details"
 msgstr "Текст отзыва"
 
@@ -247,8 +243,7 @@ msgstr "Главная"
 
 #: .\templates\base.html:46 .\templates\base.html:75
 #: .\templates\catalog\details.html:41 .\templates\catalog\details.html:60
-#: .\templates\client\read.html:76 .\templates\report\index.html:20
-#: .\templates\report\index.html:131 .\templates\review\index.html:4
+#: .\templates\client\read.html:76 .\templates\review\index.html:4
 #: .\templates\review\index.html:7 .\templates\review\list.html:4
 #: .\templates\review\list.html:7
 msgid "reviews"
@@ -264,7 +259,7 @@ msgstr "Новости"
 msgid "Contacts"
 msgstr "Контакты"
 
-#: .\templates\base.html:56 .\templates\base.html:82
+#: .\templates\base.html:56 .\templates\base.html:84
 #: .\templates\catalog\basket.html:4 .\templates\catalog\basket.html:7
 #: .\templates\catalog\list.html:10
 msgid "Basket"
@@ -301,28 +296,32 @@ msgstr "Клиенты"
 msgid "notifications"
 msgstr "Уведомления"
 
-#: .\templates\base.html:81 .\templates\catalog\buy.html:4
+#: .\templates\base.html:80
+msgid "reports"
+msgstr "Отчеты"
+
+#: .\templates\base.html:83 .\templates\catalog\buy.html:4
 #: .\templates\catalog\buy.html:7
 msgid "My purchases"
 msgstr "Мои покупки"
 
-#: .\templates\base.html:85
+#: .\templates\base.html:87
 msgid "My account"
 msgstr "Моя учетная запись"
 
-#: .\templates\base.html:86
+#: .\templates\base.html:88
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: .\templates\base.html:88
+#: .\templates\base.html:90
 msgid "Log out"
 msgstr "Выход"
 
-#: .\templates\base.html:93
+#: .\templates\base.html:95
 msgid "Log In"
 msgstr "Вход"
 
-#: .\templates\base.html:94
+#: .\templates\base.html:96
 msgid "Sign up"
 msgstr "Регистрация"
 
@@ -446,8 +445,7 @@ msgstr "Изменить отзыв"
 msgid "review"
 msgstr "Отзыв"
 
-#: .\templates\catalog\buy.html:50 .\templates\report\index.html:17
-#: .\templates\report\index.html:98
+#: .\templates\catalog\buy.html:50
 msgid "delivery"
 msgstr "Доставка"
 
@@ -460,12 +458,11 @@ msgid "Sale Quantity"
 msgstr "Количество проданного"
 
 #: .\templates\catalog\details.html:45 .\templates\catalog\list.html:132
-#: .\templates\index.html:179 .\templates\report\index.html:39
+#: .\templates\index.html:179
 msgid "Avg Rating"
 msgstr "Средняя оценка"
 
-#: .\templates\catalog\details.html:73 .\templates\report\index.html:72
-#: .\templates\report\index.html:108 .\templates\report\index.html:138
+#: .\templates\catalog\details.html:73
 msgid "saleday"
 msgstr "Дата"
 
@@ -476,8 +473,7 @@ msgstr "Пока нет отзывов"
 #: .\templates\catalog\index.html:15 .\templates\catalog\list.html:42
 #: .\templates\catalog\list.html:57 .\templates\catalog\list.html:59
 #: .\templates\detailing\index.html:61 .\templates\news\index.html:13
-#: .\templates\report\index.html:35 .\templates\report\index.html:74
-#: .\templates\report\index.html:110 .\templates\report\index.html:140
+#: .\templates\report\index.html:76
 msgid "title"
 msgstr "Название"
 
@@ -505,7 +501,7 @@ msgstr "Поиск"
 msgid "Reset"
 msgstr "Сброс"
 
-#: .\templates\catalog\list.html:128 .\templates\report\index.html:38
+#: .\templates\catalog\list.html:128
 msgid "available"
 msgstr "Доступно"
 
@@ -585,6 +581,7 @@ msgid "notification_details"
 msgstr "Текст уведомления"
 
 #: .\templates\notification\index.html:15
+#: .\templates\notification\read.html:20
 msgid "notification_viewed"
 msgstr "Уведомление просмотрено"
 
@@ -592,30 +589,20 @@ msgstr "Уведомление просмотрено"
 msgid "Reports"
 msgstr "Отчет"
 
-#: .\templates\report\index.html:14 .\templates\report\index.html:65
-msgid "Sale"
-msgstr "Продажа"
+#: .\templates\report\index.html:11 .\templates\report\index.html:23
+#: .\templates\report\index.html:30
+msgid "client_bill_sum"
+msgstr "Сумма заказов клиента"
 
-#: .\templates\report\index.html:34
-msgid "subcategory"
-msgstr "Категория"
+#: .\templates\report\index.html:14 .\templates\report\index.html:46
+#: .\templates\report\index.html:53
+msgid "client_bill_count"
+msgstr "Количество заказов клиента"
 
-#: .\templates\report\index.html:73 .\templates\report\index.html:109
-#: .\templates\report\index.html:139
-msgid "username"
-msgstr "Имя пользователя"
-
-#: .\templates\report\index.html:105
-msgid "deliveryday"
-msgstr "Дата доставки"
-
-#: .\templates\report\index.html:106
-msgid "movement"
-msgstr "движение"
-
-#: .\templates\report\index.html:107
-msgid "delivery_details"
-msgstr "Детали"
+#: .\templates\report\index.html:17 .\templates\report\index.html:69
+#: .\templates\report\index.html:77
+msgid "catalog_bill_count"
+msgstr "Количество заказов блюд"
 
 #: .\templates\reservation\edit.html:14 .\templates\reservation\index.html:14
 #: .\templates\reservation\read.html:14
@@ -640,3 +627,21 @@ msgstr "Дата подачи заявки на бронирование"
 #: .\templates\reservation\index.html:3 .\templates\reservation\index.html:6
 msgid "reservations"
 msgstr "Бронирования"
+
+#~ msgid "Sale"
+#~ msgstr "Продажа"
+
+#~ msgid "subcategory"
+#~ msgstr "Категория"
+
+#~ msgid "username"
+#~ msgstr "Имя пользователя"
+
+#~ msgid "deliveryday"
+#~ msgstr "Дата доставки"
+
+#~ msgid "movement"
+#~ msgstr "движение"
+
+#~ msgid "delivery_details"
+#~ msgstr "Детали"
